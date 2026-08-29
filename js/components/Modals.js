@@ -192,16 +192,23 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
   `;
 }
 
-export function renderDoasModal() {
+export function renderDoasModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
-          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            <span>Doa Khotmil Qur'an & Doa Pilihan</span>
-          </h2>
+          <div class="flex items-center gap-2">
+            ${fromSettings ? `
+              <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+            ` : ''}
+            <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <span>Doa Khotmil Qur'an & Doa Pilihan</span>
+            </h2>
+          </div>
           <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
@@ -210,7 +217,10 @@ export function renderDoasModal() {
         <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-4">
           ${DOAS.map(doa => `
             <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5">
-              <h3 class="font-bold text-sm sm:text-base text-emerald-800 dark:text-amber-400">${doa.title}</h3>
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-sm sm:text-base text-emerald-800 dark:text-amber-400">${doa.title}</h3>
+                <span class="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full">${doa.category}</span>
+              </div>
               <p class="font-arabic text-xl sm:text-2xl text-stone-900 dark:text-stone-100 text-right leading-loose py-2">${doa.arabic}</p>
               <p class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-300 italic">${doa.latin}</p>
               <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">${doa.translation}</p>
@@ -223,16 +233,23 @@ export function renderDoasModal() {
   `;
 }
 
-export function renderTajwidModal() {
+export function renderTajwidModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
-          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-amber-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            <span>Panduan Hukum Tajwid</span>
-          </h2>
+          <div class="flex items-center gap-2">
+            ${fromSettings ? `
+              <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+            ` : ''}
+            <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-amber-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <span>Panduan Hukum Tajwid</span>
+            </h2>
+          </div>
           <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
@@ -240,13 +257,15 @@ export function renderTajwidModal() {
 
         <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-3">
           ${TAJWID_RULES.map(rule => `
-            <div class="p-3 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-1.5 bg-stone-50/50 dark:bg-stone-800/40">
+            <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">${rule.name}</span>
-                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${rule.badgeClass}">${rule.category}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold" style="background-color: ${rule.color}25; color: ${rule.color};">
+                  ${rule.name}
+                </span>
               </div>
-              <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">${rule.desc}</p>
-              <div class="bg-white dark:bg-stone-900 p-2.5 rounded-xl font-arabic text-base sm:text-lg text-stone-900 dark:text-stone-100 text-right border border-stone-100 dark:border-stone-800">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">${rule.description}</p>
+              <div class="bg-white dark:bg-stone-900 p-2.5 rounded-xl font-arabic text-lg sm:text-xl text-stone-900 dark:text-stone-100 text-right border border-stone-150 dark:border-stone-800 tracking-wide">
                 ${rule.example}
               </div>
             </div>
@@ -330,14 +349,14 @@ export function renderSettingsModal(state) {
             </label>
           </div>
 
-          <!-- Extra Quick Links -->
+          <!-- Extra Shortcuts in Settings -->
           <div class="grid grid-cols-2 gap-2 pt-2 border-t border-stone-200 dark:border-stone-800">
-            <button id="btn-open-tajwid-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+            <button id="btn-open-tajwid-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-amber-50 dark:hover:bg-amber-950/30 text-stone-800 dark:text-stone-200 hover:text-amber-700 dark:hover:text-amber-400 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all border border-transparent hover:border-amber-500/30">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-amber-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
               <span>Panduan Tajwid</span>
             </button>
 
-            <button id="btn-open-doas-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+            <button id="btn-open-doas-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 text-stone-800 dark:text-stone-200 hover:text-emerald-700 dark:hover:text-emerald-400 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all border border-transparent hover:border-emerald-500/30">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-emerald-600"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
               <span>Doa Khatam</span>
             </button>

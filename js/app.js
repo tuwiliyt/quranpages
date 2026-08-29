@@ -151,7 +151,6 @@ class QuranApp {
   async loadCurrentView() {
     const { currentPage, viewMode, fontType } = this.state;
     
-    // Register font for current page
     if (fontType === 'v2' || fontType === 'v1') {
       loadPageFont(currentPage, fontType);
       preloadAdjacentFonts(currentPage, fontType);
@@ -530,7 +529,7 @@ class QuranApp {
     document.querySelectorAll('.word-passed').forEach(el => el.classList.remove('word-passed'));
   }
 
-  openModal(type) {
+  openModal(type, fromSettings = false) {
     this.state.activeModal = type;
     const modalRoot = document.getElementById('modal-root');
     if (!modalRoot) return;
@@ -545,9 +544,9 @@ class QuranApp {
       modalRoot.innerHTML = renderBookmarksDrawer(this.state.bookmarks, this.state.lastRead);
       this.attachBookmarksEvents();
     } else if (type === 'doas') {
-      modalRoot.innerHTML = renderDoasModal();
+      modalRoot.innerHTML = renderDoasModal(fromSettings);
     } else if (type === 'tajwid') {
-      modalRoot.innerHTML = renderTajwidModal();
+      modalRoot.innerHTML = renderTajwidModal(fromSettings);
     } else if (type === 'settings') {
       modalRoot.innerHTML = renderSettingsModal(this.state);
       this.attachSettingsEvents();
@@ -556,6 +555,11 @@ class QuranApp {
     modalRoot.querySelectorAll('.modal-close').forEach(btn => {
       btn.addEventListener('click', () => this.closeModal());
     });
+
+    modalRoot.querySelector('#btn-back-to-settings')?.addEventListener('click', () => {
+      this.openModal('settings');
+    });
+
     modalRoot.firstElementChild?.addEventListener('click', (e) => {
       if (e.target === modalRoot.firstElementChild) this.closeModal();
     });
@@ -756,11 +760,11 @@ class QuranApp {
     });
 
     document.getElementById('btn-open-tajwid-from-settings')?.addEventListener('click', () => {
-      this.openModal('tajwid');
+      this.openModal('tajwid', true);
     });
 
     document.getElementById('btn-open-doas-from-settings')?.addEventListener('click', () => {
-      this.openModal('doas');
+      this.openModal('doas', true);
     });
   }
 
