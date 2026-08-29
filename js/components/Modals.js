@@ -44,7 +44,7 @@ export function renderSurahPickerModal(currentSurahId) {
         </div>
 
         <!-- Scrollable Content Lists -->
-        <div class="overflow-y-auto modal-scrollable p-3 sm:p-4 flex-1 min-h-0">
+        <div class="overflow-y-auto modal-scrollable p-3 sm:p-4 flex-1 min-h-0" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
           <!-- 114 Surahs Grid -->
           <div id="tab-content-surah" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${CHAPTERS.map(ch => `
@@ -110,7 +110,7 @@ export function renderSearchModal() {
           </button>
         </div>
 
-        <div id="search-results-container" class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-2.5">
+        <div id="search-results-container" class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-2.5" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
           <div class="text-center py-10 text-stone-400 text-xs sm:text-sm">
             Ketik minimal 2 huruf untuk memulai pencarian cerdas Al-Qur'an.
           </div>
@@ -136,7 +136,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
           </button>
         </div>
 
-        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
           
           <!-- Last Read Card -->
           <div>
@@ -194,11 +194,11 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
 
 export function renderDoasModal(fromSettings = false) {
   return `
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in" id="modal-doas-container">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[85vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <!-- Header (Fixed Top) -->
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900 z-10">
           <div class="flex items-center gap-2">
             ${fromSettings ? `
               <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
@@ -215,10 +215,10 @@ export function renderDoasModal(fromSettings = false) {
           </button>
         </div>
 
-        <!-- Scrollable Content Body -->
-        <div class="overflow-y-auto modal-scrollable p-4 sm:p-5 flex-1 min-h-0 flex flex-col gap-4">
+        <!-- Scrollable Content Body (Full Touch & Mouse Wheel Scroll) -->
+        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-4" style="overflow-y: scroll !important; -webkit-overflow-scrolling: touch; min-height: 0;">
           ${DOAS.map(doa => `
-            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5 shadow-sm">
+            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5 shadow-sm flex-shrink-0">
               <div class="flex items-center justify-between">
                 <h3 class="font-bold text-sm sm:text-base text-emerald-800 dark:text-amber-400">${doa.title}</h3>
                 <span class="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2.5 py-0.5 rounded-full">${doa.category}</span>
@@ -237,11 +237,11 @@ export function renderDoasModal(fromSettings = false) {
 
 export function renderTajwidModal(fromSettings = false) {
   return `
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in" id="modal-tajwid-container">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[85vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <!-- Header (Fixed Top) -->
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900 z-10">
           <div class="flex items-center gap-2">
             ${fromSettings ? `
               <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
@@ -258,10 +258,10 @@ export function renderTajwidModal(fromSettings = false) {
           </button>
         </div>
 
-        <!-- Scrollable Content Body -->
-        <div class="overflow-y-auto modal-scrollable p-4 sm:p-5 flex-1 min-h-0 flex flex-col gap-3">
+        <!-- Scrollable Content Body (Full Touch & Mouse Wheel Scroll) -->
+        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-3" style="overflow-y: scroll !important; -webkit-overflow-scrolling: touch; min-height: 0;">
           ${TAJWID_RULES.map(rule => `
-            <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40 shadow-sm">
+            <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40 shadow-sm flex-shrink-0">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">${rule.name}</span>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold" style="background-color: ${rule.color}25; color: ${rule.color};">
@@ -298,7 +298,7 @@ export function renderSettingsModal(state) {
           </button>
         </div>
 
-        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4 text-xs sm:text-sm">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4 text-xs sm:text-sm" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
           
           <!-- Theme Selection -->
           <div>

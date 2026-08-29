@@ -1,11 +1,11 @@
 /**
- * AUDIO MANAGER SERVICE (KARAOKE SYNCHRONIZATION ENGINE)
+ * AUDIO MANAGER SERVICE (WORD-BY-WORD SYNCHRONIZATION ENGINE)
  * High-Precision 60 FPS Word-by-Word Synchronized Highlighting
  * Supports Continuous Multi-Page Auto-Play and Seamless Transitions
  */
 
 export const RECITERS = [
-  { id: 7, name: 'Mishary Rashid Alafasy', subtext: 'Murattal (Lengkap Segmen Karaoke Kata)', folder: 'Alafasy/mp3' },
+  { id: 7, name: 'Mishary Rashid Alafasy', subtext: 'Murattal (Sinkronisasi Kata Per-Kata)', folder: 'Alafasy/mp3' },
   { id: 3, name: 'Abdur-Rahman As-Sudais', subtext: 'Imam Masjidil Haram', folder: 'Abdurrahmaan_As-Sudais_192kbps' },
   { id: 11, name: 'Maher Al-Muaiqly', subtext: 'Imam Masjidil Haram', folder: 'Maher_AlMuaiqly_64kbps' },
   { id: 6, name: 'Mahmoud Khalil Al-Husary', subtext: 'Tartil Standar Tajwid', folder: 'Husary_128kbps' },
@@ -45,13 +45,13 @@ class AudioService {
   initAudioEvents() {
     this.audio.addEventListener('play', () => {
       this.isPlaying = true;
-      this.startKaraokeLoop();
+      this.startSyncLoop();
       this.emit('playState', true);
     });
 
     this.audio.addEventListener('pause', () => {
       this.isPlaying = false;
-      this.stopKaraokeLoop();
+      this.stopSyncLoop();
       this.emit('playState', false);
     });
 
@@ -61,23 +61,22 @@ class AudioService {
 
     this.audio.addEventListener('error', (e) => {
       console.warn('Audio playback error:', e);
-      // Attempt next if available or notify
-      this.stopKaraokeLoop();
+      this.stopSyncLoop();
       this.handleVerseEnded();
     });
   }
 
-  startKaraokeLoop() {
-    this.stopKaraokeLoop();
+  startSyncLoop() {
+    this.stopSyncLoop();
     const update = () => {
       if (!this.isPlaying) return;
-      this.processKaraokeSync();
+      this.processWordSync();
       this.animationFrameId = requestAnimationFrame(update);
     };
     this.animationFrameId = requestAnimationFrame(update);
   }
 
-  stopKaraokeLoop() {
+  stopSyncLoop() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
@@ -165,7 +164,7 @@ class AudioService {
       this.audio.playbackRate = this.playbackRate;
       await this.audio.play();
       this.isPlaying = true;
-      this.startKaraokeLoop();
+      this.startSyncLoop();
       this.emit('verseChange', verseKey);
       this.emit('playState', true);
     } catch (err) {
@@ -193,9 +192,9 @@ class AudioService {
   }
 
   /**
-   * 60 FPS Real-Time Karaoke Sync Calculation
+   * 60 FPS Real-Time Word Sync Calculation
    */
-  processKaraokeSync() {
+  processWordSync() {
     const currentMs = this.audio.currentTime * 1000;
     const duration = this.audio.duration || 0;
 
@@ -244,17 +243,14 @@ class AudioService {
 
     const currentIndex = this.queue.indexOf(this.currentVerseKey);
     if (currentIndex !== -1 && currentIndex < this.queue.length - 1) {
-      // Next verse on the SAME page
       const nextKey = this.queue[currentIndex + 1];
       this.playVerse(nextKey);
     } else {
-      // End of current page
       if (this.repeatMode === 'page') {
         if (this.queue.length > 0) {
           this.playVerse(this.queue[0]);
         }
       } else if (this.onPageEndCallback) {
-        // Continuous Multi-Page Auto-Play!
         this.onPageEndCallback();
       } else {
         this.isPlaying = false;
@@ -275,7 +271,7 @@ class AudioService {
     this.isPlaying = false;
     this.currentVerseKey = null;
     this.currentWordPosition = null;
-    this.stopKaraokeLoop();
+    this.stopSyncLoop();
     this.emit('playState', false);
     this.emit('verseChange', null);
     this.emit('wordHighlight', { verseKey: null, wordPosition: null });

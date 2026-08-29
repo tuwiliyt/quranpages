@@ -1,6 +1,6 @@
 # 📖 Mushaf Al-Qur'an Standar Indonesia (Web App)
 
-Aplikasi Al-Qur'an Web resmi berstandar **Mushaf Indonesia 15 Baris (LPMQ Kementerian Agama RI & Madani 604 Halaman)** dengan kesesuaian cetakan presisi, kaligrafi asli per halaman, audio Murottal tersinkronisasi kata demi kata (*Karaoke-style Real-Time Highlighter*), dan 100% aset data lokal bebas jeda loading.
+Aplikasi Al-Qur'an Web resmi berstandar **Mushaf Indonesia 15 Baris (LPMQ Kementerian Agama RI & Madani 604 Halaman)** dengan kesesuaian cetakan presisi, kaligrafi asli per halaman, audio Murottal tersinkronisasi kata demi kata (*Word-by-word Real-Time Highlighter*), dan 100% aset data lokal bebas jeda loading.
 
 ---
 
@@ -14,7 +14,7 @@ Aplikasi Al-Qur'an Web resmi berstandar **Mushaf Indonesia 15 Baris (LPMQ Kement
   - Default: **Standar Madinah (King Fahd Complex QCF V2)** dengan 604 file font lokal (`p1.woff2` s/d `p604.woff2`).
   - Font Resmi **LPMQ Isep Misbah** (Kementerian Agama RI).
   - Font **KFGQPC Uthman Taha Naskh**.
-- 🎤 **Audio Murottal Karaoke Real-Time (60 FPS):**
+- 🎤 **Audio Murottal sinkronisasi kata demi kata Real-Time (60 FPS):**
   - Kata yang sedang dibaca Qari **menyala emas secara real-time** dengan akurasi milidetik (*Word-by-Word Synchronized Highlighting*).
   - Kata yang sudah dibaca diberi penanda hangat agar pembaca mudah mengikuti alur bacaan.
   - **Pilihan 6 Qari Ternama:** *Mishary Rashid Alafasy, Abdurrahman As-Sudais, Maher Al-Muaiqly, Mahmoud Khalil Al-Husary, Abdul Basit Abdul Samad, Abu Bakr Al-Shatri*.
@@ -64,7 +64,7 @@ quranpages/
 ├── favicon.svg / favicon.ico    # Favicon Ikon Mushaf
 ├── css/
 │   ├── tailwind.css             # Standalone Production CSS
-│   └── mushaf.css               # Styling Ornamen Mushaf & Animasi Karaoke
+│   └── mushaf.css               # Styling Ornamen Mushaf & Animasi sinkronisasi kata demi kata
 ├── js/
 │   ├── app.js                   # Application State & Controller
 │   ├── data/
@@ -75,7 +75,7 @@ quranpages/
 │   │   └── tajwid_rules.js      # Panduan Hukum Tajwid
 │   ├── services/
 │   │   ├── api.js               # Local Assets Data Client
-│   │   └── audio.js             # 60 FPS Karaoke Audio Sync Engine
+│   │   └── audio.js             # 60 FPS sinkronisasi kata demi kata Audio Sync Engine
 │   └── components/
 │       ├── HeaderNav.js         # Navigasi & Mode Switcher
 │       ├── MushafPage.js        # Engine Render 15 Baris Mushaf

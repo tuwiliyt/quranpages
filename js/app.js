@@ -1,7 +1,7 @@
 /**
  * MAIN QURAN MUSHAF APPLICATION CONTROLLER
  * Mushaf Standar Indonesia & Quran.com Frontend Engine
- * Default: Standar Madinah (QCF V2) & 60 FPS Karaoke-Style Sync & Continuous Auto-Play
+ * Default: Standar Madinah (QCF V2) & 60 FPS Real-Time Word Sync & Continuous Auto-Play
  * Copyright © 2026 @richieoct
  */
 
@@ -29,6 +29,8 @@ import {
 
 class QuranApp {
   constructor() {
+    window.quranApp = this;
+
     this.state = {
       currentPage: 1,
       currentSurahId: 1,
@@ -67,6 +69,7 @@ class QuranApp {
     this.setupAudioListeners();
     this.setupGlobalShortcuts();
     this.setupTouchGestures();
+    this.setupGlobalDelegation();
     
     window.playWordAudio = (url) => audioService.playWord(url);
 
@@ -102,7 +105,7 @@ class QuranApp {
 
     audioService.on('wordHighlight', ({ verseKey, wordPosition }) => {
       this.state.currentActiveWordPos = wordPosition;
-      this.updateKaraokeWordHighlight(verseKey, wordPosition);
+      this.updateWordHighlight(verseKey, wordPosition);
     });
 
     audioService.on('timeUpdate', (progress) => {
@@ -148,6 +151,16 @@ class QuranApp {
         }
       }
     }, { passive: true });
+  }
+
+  setupGlobalDelegation() {
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('#btn-footer-surah, #btn-footer-doas, #btn-footer-tajwid');
+      if (!btn) return;
+      if (btn.id === 'btn-footer-surah') this.openModal('surahPicker');
+      else if (btn.id === 'btn-footer-doas') this.openModal('doas');
+      else if (btn.id === 'btn-footer-tajwid') this.openModal('tajwid');
+    });
   }
 
   async loadCurrentView() {
@@ -335,7 +348,7 @@ class QuranApp {
     document.getElementById('btn-open-doas')?.addEventListener('click', () => this.openModal('doas'));
     document.getElementById('btn-open-settings')?.addEventListener('click', () => this.openModal('settings'));
 
-    // Footer Event Handlers
+    // Footer Direct Event Handlers
     document.getElementById('btn-footer-surah')?.addEventListener('click', () => this.openModal('surahPicker'));
     document.getElementById('btn-footer-doas')?.addEventListener('click', () => this.openModal('doas'));
     document.getElementById('btn-footer-tajwid')?.addEventListener('click', () => this.openModal('tajwid'));
@@ -510,7 +523,7 @@ class QuranApp {
     }
   }
 
-  updateKaraokeWordHighlight(verseKey, wordPosition) {
+  updateWordHighlight(verseKey, wordPosition) {
     if (!verseKey) {
       this.clearAllWordHighlights();
       return;
