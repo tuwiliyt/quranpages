@@ -1,24 +1,28 @@
 /**
- * TWO-PAGE SPREAD (Buku / Kitab Mode)
- * Renders even page on Right and odd page on Left, mirroring physical Arabic Mushaf books!
+ * TWO-PAGE SPREAD COMPONENT (RESPONSIVE BOOK SPREAD)
  */
 
 import { renderMushafPage } from './MushafPage.js';
 
 export function renderTwoPageSpread(rightPageNum, rightVerses, leftPageNum, leftVerses, options = {}) {
-  const rightHtml = renderMushafPage(rightPageNum, rightVerses, options);
-  const leftHtml = leftPageNum <= 604 ? renderMushafPage(leftPageNum, leftVerses, options) : '<div class="p-12 text-center text-stone-400">Akhir Mushaf</div>';
+  const rightPageHtml = renderMushafPage(rightPageNum, rightVerses, options);
+  const leftPageHtml = (leftPageNum <= 604) ? renderMushafPage(leftPageNum, leftVerses, options) : '';
 
   return `
-    <div class="two-page-spread w-full max-w-[1240px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-0 p-2 md:p-6 rounded-2xl">
-      <!-- Right Page (Even or Earlier Page in RTL) -->
-      <div class="two-page-right p-1 md:p-3">
-        ${rightHtml}
-      </div>
+    <div class="two-page-spread-wrapper w-full max-w-6xl mx-auto">
+      <!-- Desktop & Tablet Two Page View -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 items-start">
+        
+        <!-- Left Page (Odd Page in Arabic reading) -->
+        <div class="order-2 md:order-1 transform transition-transform">
+          ${leftPageHtml ? leftPageHtml : '<div class="p-8 text-center text-stone-400">Akhir Al-Qur\'an</div>'}
+        </div>
 
-      <!-- Left Page (Odd or Later Page in RTL) -->
-      <div class="two-page-left p-1 md:p-3">
-        ${leftHtml}
+        <!-- Right Page (Even Page in Arabic reading) -->
+        <div class="order-1 md:order-2 transform transition-transform">
+          ${rightPageHtml}
+        </div>
+
       </div>
     </div>
   `;
