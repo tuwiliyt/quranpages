@@ -2,6 +2,7 @@
  * MAIN QURAN MUSHAF APPLICATION CONTROLLER
  * Mushaf Standar Indonesia & Quran.com Frontend Engine
  * Default: Standar Madinah (QCF V2) & 60 FPS Karaoke-Style Sync & Continuous Auto-Play
+ * Copyright © 2026 @richieoct
  */
 
 import { CHAPTERS, CHAPTER_MAP } from './data/chapters.js';
@@ -15,6 +16,7 @@ import { renderMushafPage } from './components/MushafPage.js';
 import { renderTwoPageSpread } from './components/TwoPageView.js';
 import { renderHDScanView } from './components/HDScanView.js';
 import { renderAyahListView } from './components/AyahListView.js';
+import { renderFooter } from './components/Footer.js';
 import { renderAudioBar } from './components/AudioBar.js';
 import {
   renderSurahPickerModal,
@@ -290,13 +292,15 @@ class QuranApp {
       </div>
     `;
 
+    const footerHtml = renderFooter();
     const audioBarHtml = renderAudioBar(this.state);
 
     appEl.innerHTML = `
       ${headerHtml}
-      <main class="max-w-7xl mx-auto px-2 sm:px-4 py-6 md:py-8 mb-28">
+      <main class="max-w-7xl mx-auto px-2 sm:px-4 py-6 md:py-8">
         ${contentHtml}
       </main>
+      ${footerHtml}
       ${navFloatHtml}
       <div id="audio-container">${audioBarHtml}</div>
       <div id="modal-root"></div>
@@ -330,6 +334,11 @@ class QuranApp {
     document.getElementById('btn-open-bookmarks')?.addEventListener('click', () => this.openModal('bookmarks'));
     document.getElementById('btn-open-doas')?.addEventListener('click', () => this.openModal('doas'));
     document.getElementById('btn-open-settings')?.addEventListener('click', () => this.openModal('settings'));
+
+    // Footer Event Handlers
+    document.getElementById('btn-footer-surah')?.addEventListener('click', () => this.openModal('surahPicker'));
+    document.getElementById('btn-footer-doas')?.addEventListener('click', () => this.openModal('doas'));
+    document.getElementById('btn-footer-tajwid')?.addEventListener('click', () => this.openModal('tajwid'));
 
     this.attachAudioBarEvents();
     this.attachInteractiveTextEvents();
