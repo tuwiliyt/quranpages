@@ -147,9 +147,13 @@ class QuranApp {
       if (Math.abs(diff) > 70) {
         // RTL Mushaf: geser kiri = halaman berikutnya, geser kanan = halaman sebelumnya
         if (diff > 0) {
-          this.prevPage({ autoPlay: this.state.isAudioPlaying });
-        } else {
+          // diff > 0 means Swipe Right (geser ke kanan).
+          // Dalam RTL/Mushaf, halaman berikutnya ada di sebelah KIRI.
+          // Jadi kita menarik dari kiri ke kanan (Swipe Right) untuk memunculkan halaman berikutnya.
           this.nextPage({ autoPlay: this.state.isAudioPlaying });
+        } else {
+          // diff < 0 means Swipe Left (geser ke kiri).
+          this.prevPage({ autoPlay: this.state.isAudioPlaying });
         }
       }
     }, { passive: true });
