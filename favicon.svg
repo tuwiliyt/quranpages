@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#105652"/>
+      <stop offset="100%" stop-color="#083330"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e4d3a2"/>
+      <stop offset="100%" stop-color="#c59d5f"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#grad)"/>
+  <rect x="6" y="6" width="52" height="52" rx="12" fill="none" stroke="url(#gold)" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <!-- Holy Book Outline -->
+  <path d="M18 46V18c0-2.2 1.8-4 4-4h20c2.2 0 4 1.8 4 4v28c0 2.2-1.8 4-4 4H22c-2.2 0-4-1.8-4-4z" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+  <!-- Book Spine Detail -->
+  <line x1="24" y1="14" x2="24" y2="50" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Islamic Star/Crescent in center -->
+  <polygon points="35,26 37,31 42,31 38,34 40,39 35,36 30,39 32,34 28,31 33,31" fill="url(#gold)"/>
+</svg>

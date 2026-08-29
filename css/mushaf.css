@@ -1,0 +1,346 @@
+/* ==========================================================================
+   MUSHAF AL-QUR'AN STANDAR INDONESIA & QURAN.COM FRONTEND STYLES
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Scheherazade+New:wght@400;600;700&display=swap');
+
+/* Local High-Quality Quran Fonts */
+@font-face {
+  font-family: 'LPMQ Isep Misbah';
+  src: url('./assets/fonts/lpmq_misbah.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KFGQPC Uthman Taha Naskh';
+  src: url('./assets/fonts/kfgqpc_hafs.woff2') format('woff2');
+  font-display: swap;
+}
+
+:root {
+  /* Theme: Mushaf Paper (Default) */
+  --bg-primary: #fbf9f4;
+  --bg-secondary: #f4ede0;
+  --bg-card: #ffffff;
+  --bg-mushaf-page: #fefdf9;
+  --text-primary: #1e2923;
+  --text-secondary: #4b5563;
+  --text-arabic: #111827;
+  --color-gold: #c59d5f;
+  --color-gold-light: #ebd6a9;
+  --color-gold-dark: #8b6914;
+  --color-emerald: #105652;
+  --color-emerald-light: #187973;
+  --color-emerald-dark: #083330;
+  --border-mushaf: #d9cbb2;
+  --border-subtle: #e5ded2;
+  --highlight-word: #fef08a;
+  --highlight-verse: #fef9c3;
+  --shadow-mushaf: 0 10px 30px -5px rgba(139, 105, 20, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-mushaf-page: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-arabic: #020617;
+  --color-gold: #b4833e;
+  --color-gold-light: #dfc491;
+  --color-gold-dark: #7c5822;
+  --color-emerald: #047857;
+  --color-emerald-light: #10b981;
+  --color-emerald-dark: #064e3b;
+  --border-mushaf: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --highlight-word: #fde047;
+  --highlight-verse: #fef08a;
+  --shadow-mushaf: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark-emerald"] {
+  --bg-primary: #0a1411;
+  --bg-secondary: #11221d;
+  --bg-card: #152b25;
+  --bg-mushaf-page: #10211c;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-arabic: #f8fafc;
+  --color-gold: #e2b76e;
+  --color-gold-light: #f3d8a5;
+  --color-gold-dark: #a17833;
+  --color-emerald: #10b981;
+  --color-emerald-light: #34d399;
+  --color-emerald-dark: #065f46;
+  --border-mushaf: #24443a;
+  --border-subtle: #1c352d;
+  --highlight-word: #854d0e;
+  --highlight-verse: #3b2f15;
+  --shadow-mushaf: 0 12px 35px -5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="midnight"] {
+  --bg-primary: #000000;
+  --bg-secondary: #121212;
+  --bg-card: #18181b;
+  --bg-mushaf-page: #0d0d0f;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-arabic: #ffffff;
+  --color-gold: #d4af37;
+  --color-gold-light: #ebd68a;
+  --color-gold-dark: #91751d;
+  --color-emerald: #10b981;
+  --color-emerald-light: #34d399;
+  --color-emerald-dark: #059669;
+  --border-mushaf: #27272a;
+  --border-subtle: #202023;
+  --highlight-word: #713f12;
+  --highlight-verse: #362208;
+  --shadow-mushaf: 0 12px 35px -5px rgba(0, 0, 0, 0.8);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* ==========================================================================
+   MUSHAF PAGE CONTAINER & 15-LINES EXACT LAYOUT
+   ========================================================================= */
+
+.mushaf-page-card {
+  background-color: var(--bg-mushaf-page);
+  border: 1.5px solid var(--border-mushaf);
+  box-shadow: var(--shadow-mushaf);
+  position: relative;
+  transition: all 0.3s ease;
+  user-select: text;
+}
+
+/* Double Golden Border Ornament */
+.mushaf-inner-border {
+  border: 2px solid var(--color-gold);
+  position: relative;
+  background-color: var(--bg-mushaf-page);
+}
+
+.mushaf-inner-border::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed var(--color-gold);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Islamic Corner Accents */
+.corner-ornament {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 5;
+}
+.corner-tl { top: 4px; left: 4px; }
+.corner-tr { top: 4px; right: 4px; }
+.corner-bl { bottom: 4px; left: 4px; }
+.corner-br { bottom: 4px; right: 4px; }
+
+/* 15-Lines Container */
+.mushaf-lines-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  direction: rtl;
+  text-align: justify;
+  text-align-last: justify;
+}
+
+.mushaf-line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  direction: rtl;
+  min-height: 38px;
+  line-height: 1.7;
+}
+
+.mushaf-line.line-justified {
+  justify-content: space-between;
+}
+
+.mushaf-line.line-center {
+  justify-content: center;
+  gap: 12px;
+}
+
+.mushaf-line:hover {
+  background-color: rgba(197, 157, 95, 0.06);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   SURAH HEADER & BISMILLAH BANNER
+   ========================================================================== */
+
+.surah-header-banner {
+  width: 100%;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(197, 157, 95, 0.2) 50%, var(--bg-secondary) 100%);
+  border: 1.5px solid var(--color-gold);
+  border-radius: 6px;
+  text-align: center;
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(197, 157, 95, 0.15);
+}
+
+.surah-header-title {
+  font-family: 'Amiri', 'LPMQ Isep Misbah', serif;
+  font-weight: 700;
+  color: var(--color-emerald);
+  margin: 0;
+  line-height: 1.3;
+}
+
+[data-theme="dark-emerald"] .surah-header-title,
+[data-theme="midnight"] .surah-header-title {
+  color: var(--color-gold);
+}
+
+.bismillah-line {
+  width: 100%;
+  text-align: center;
+  font-family: 'Amiri', 'LPMQ Isep Misbah', serif;
+  color: var(--text-arabic);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   KARAOKE-STYLE WORD & GLYPH SYNCHRONIZATION
+   ========================================================================== */
+
+.quran-word {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0 1.5px;
+  color: var(--text-arabic);
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  white-space: nowrap;
+}
+
+.quran-word:hover {
+  background-color: var(--highlight-verse);
+  transform: scale(1.08);
+  color: var(--color-emerald);
+  z-index: 10;
+  border-radius: 4px;
+}
+
+/* Karaoke Active Word (Currently Spoken by Qari) */
+.quran-word.word-active {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  color: #ffffff !important;
+  font-weight: bold;
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), 0 2px 6px rgba(0, 0, 0, 0.18);
+  transform: scale(1.22);
+  z-index: 30;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  animation: karaokeGlow 1.2s infinite alternate;
+}
+
+[data-theme="dark-emerald"] .quran-word.word-active,
+[data-theme="midnight"] .quran-word.word-active {
+  background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%) !important;
+  color: #000000 !important;
+  box-shadow: 0 0 22px rgba(252, 211, 77, 0.95);
+  text-shadow: none;
+}
+
+/* Karaoke Passed Words (Recited Earlier in Current Verse) */
+.quran-word.word-passed {
+  color: #b45309 !important;
+  font-weight: 600;
+}
+
+[data-theme="dark-emerald"] .quran-word.word-passed,
+[data-theme="midnight"] .quran-word.word-passed {
+  color: #fcd34d !important;
+}
+
+/* Active Verse Subtle Background */
+.verse-highlighted {
+  background-color: rgba(197, 157, 95, 0.12) !important;
+  border-radius: 6px;
+}
+
+@keyframes karaokeGlow {
+  from {
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+    transform: scale(1.18);
+  }
+  to {
+    box-shadow: 0 0 22px rgba(245, 158, 11, 1);
+    transform: scale(1.24);
+  }
+}
+
+/* End of Ayah Glyph / Emblem */
+.ayah-end-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+  color: var(--color-gold);
+  font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+  line-height: 1;
+  position: relative;
+  user-select: none;
+  transition: transform 0.15s ease;
+}
+
+.ayah-end-glyph:hover {
+  transform: scale(1.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .mushaf-line {
+    min-height: 32px;
+    line-height: 1.5;
+  }
+  .quran-word {
+    font-size: 1.28rem;
+  }
+  .ayah-end-glyph {
+    font-size: 1.15rem;
+  }
+}
