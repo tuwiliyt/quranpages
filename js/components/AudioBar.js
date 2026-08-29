@@ -62,6 +62,11 @@ export function renderAudioBar(state) {
             <button id="btn-audio-repeat" class="p-1.5 ${repeatMode !== 'none' ? 'text-amber-400 font-bold' : 'text-stone-400'} hover:bg-stone-800 rounded-lg transition-colors" title="Ulangi (Ayat/Halaman)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
             </button>
+
+            <!-- Close / Stop Audio -->
+            <button id="btn-audio-close" class="p-1.5 text-stone-500 hover:text-red-400 hover:bg-stone-800 rounded-lg transition-colors" title="Hentikan & Tutup Audio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
           </div>
 
         </div>

@@ -3,7 +3,7 @@
  * Full Offline PWA Cache & Dynamic Audio Offline Caching
  */
 
-const CACHE_NAME = 'quran-mushaf-v2';
+const CACHE_NAME = 'quran-mushaf-v3';
 const AUDIO_CACHE = 'quran-audio-v1';
 
 const STATIC_ASSETS = [
@@ -28,15 +28,18 @@ const STATIC_ASSETS = [
   './js/components/HDScanView.js',
   './js/components/AyahListView.js',
   './js/components/AudioBar.js',
+  './js/components/Footer.js',
   './js/components/Modals.js',
   './assets/fonts/lpmq_misbah.ttf',
   './assets/fonts/kfgqpc_hafs.woff2',
   './assets/fonts/amiri_0.woff2',
   './assets/fonts/amiri_1.woff2',
   './assets/fonts/jakarta_2.woff2',
+  './assets/fonts/jakarta_3.woff2',
   './assets/fonts/jakarta_4.woff2',
   './assets/fonts/jakarta_5.woff2',
-  './assets/fonts/scheherazade_6.woff2'
+  './assets/fonts/scheherazade_6.woff2',
+  './assets/fonts/scheherazade_7.woff2'
 ];
 
 self.addEventListener('install', (event) => {

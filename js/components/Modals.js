@@ -71,18 +71,19 @@ export function renderSurahPickerModal(currentSurahId) {
           <div id="tab-content-juz" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${JUZS.map(j => `
               <div class="juz-item p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all group active:scale-[0.98] hover:bg-stone-50 dark:hover:bg-stone-800/50"
-                   data-juz="${j.id}" data-start-page="${j.pages[0]}">
+                   data-juz="${j.juz_number}" data-start-page="${j.start_page}">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 group-hover:bg-emerald-700 group-hover:text-white flex items-center justify-center font-bold text-xs transition-colors">
-                    ${j.id}
+                    ${j.juz_number}
                   </div>
                   <div>
-                    <h4 class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">${j.name}</h4>
-                    <p class="text-[10px] text-stone-500">${j.first_verse_id} • Hal. ${j.pages[0]} - ${j.pages[1]}</p>
+                    <h4 class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">Juz ${j.juz_number} — ${j.first_surah_name_simple}</h4>
+                    <p class="text-[10px] text-stone-500">Ayat ${j.start_verse_key} • Hal. ${j.start_page} - ${j.end_page}</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold text-emerald-700 dark:text-amber-400">Buka Juz</span>
+                <div class="text-right flex flex-col items-end gap-0.5">
+                  <span class="font-arabic text-sm text-emerald-800 dark:text-amber-400">${j.first_surah_name_arabic}</span>
+                  <span class="text-[10px] font-semibold text-emerald-700 dark:text-amber-400">Buka Juz</span>
                 </div>
               </div>
             `).join('')}
