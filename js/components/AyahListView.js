@@ -20,7 +20,15 @@ export function renderAyahListView(versesData, options = {}) {
 
   versesData.forEach((verse) => {
     const isVerseActive = (activeVerseKey === verse.verse_key);
-    const translationText = verse.translations?.[0]?.text || '';
+    let idTranslation = '';
+    let gorTranslation = '';
+    if (verse.translations) {
+      const idObj = verse.translations.find(t => t.resource_id === 33 || !t.language_name || t.language_name === 'indonesian');
+      const gorObj = verse.translations.find(t => t.language_name === 'gorontalo');
+      if (idObj) idTranslation = idObj.text;
+      else if (verse.translations.length > 0) idTranslation = verse.translations[0].text;
+      if (gorObj) gorTranslation = gorObj.text;
+    }
     const words = verse.words || [];
 
     html += `
@@ -52,7 +60,7 @@ export function renderAyahListView(versesData, options = {}) {
             </button>
             <button class="btn-copy-ayah p-2 rounded-lg text-stone-500 hover:text-emerald-600 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
                     data-arabic="${encodeURIComponent(verse.text_uthmani || '')}"
-                    data-trans="${encodeURIComponent(translationText)}"
+                    data-trans="${encodeURIComponent(idTranslation)}"
                     title="Salin Ayat">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
@@ -86,15 +94,27 @@ export function renderAyahListView(versesData, options = {}) {
           </div>
         ` : ''}
 
-        <!-- Indonesian Translation (Kemenag RI) -->
+        <!-- Translations -->
         ${showTranslation ? `
-          <div class="translation-box mt-4 pt-4 border-t border-stone-100 dark:border-stone-800/80">
-            <p class="text-stone-700 dark:text-stone-300 text-sm md:text-base leading-relaxed">
-              ${translationText}
-            </p>
-            <span class="inline-block mt-1 text-[11px] text-stone-400">
-              — Terjemahan Kementerian Agama RI
-            </span>
+          <div class="translation-box mt-4 pt-4 border-t border-stone-100 dark:border-stone-800/80 flex flex-col gap-3">
+            <div>
+              <p class="text-stone-700 dark:text-stone-300 text-sm md:text-base leading-relaxed">
+                ${idTranslation}
+              </p>
+              <span class="inline-block mt-1 text-[11px] text-stone-400">
+                — Terjemahan Kementerian Agama RI
+              </span>
+            </div>
+            ${gorTranslation ? `
+            <div class="pl-3 border-l-2 border-emerald-500/40 dark:border-amber-500/40 mt-1">
+              <p class="text-emerald-800 dark:text-amber-200/90 text-sm md:text-base leading-relaxed italic">
+                ${gorTranslation}
+              </p>
+              <span class="inline-block mt-1 text-[11px] text-emerald-600/80 dark:text-amber-500/70">
+                — Terjemahan Bahasa Daerah (Gorontalo)
+              </span>
+            </div>
+            ` : ''}
           </div>
         ` : ''}
 
