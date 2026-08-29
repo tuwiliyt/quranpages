@@ -1,0 +1,24 @@
+{
+  "name": "Mushaf Al-Qur'an Standar Indonesia",
+  "short_name": "Qur'an Mushaf",
+  "description": "Mushaf Al-Qur'an Standar Indonesia 15 Baris & Ayat Pojok (LPMQ Kemenag RI)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbf9f4",
+  "theme_color": "#105652",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "64x64 128x128 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

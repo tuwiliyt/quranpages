@@ -1,19 +1,63 @@
 /* ==========================================================================
    MUSHAF AL-QUR'AN STANDAR INDONESIA & QURAN.COM FRONTEND STYLES
+   100% OFFLINE LOCAL ASSETS (ZERO EXTERNAL CALLS)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Scheherazade+New:wght@400;600;700&display=swap');
+/* Local Latin & Arabic Fonts */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/jakarta_2.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/assets/fonts/jakarta_4.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/jakarta_5.woff2') format('woff2');
+  font-display: swap;
+}
 
-/* Local High-Quality Quran Fonts */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/amiri_0.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/amiri_1.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Scheherazade New';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/scheherazade_6.woff2') format('woff2');
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'LPMQ Isep Misbah';
-  src: url('./assets/fonts/lpmq_misbah.ttf') format('truetype');
+  src: url('/assets/fonts/lpmq_misbah.ttf') format('truetype');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'KFGQPC Uthman Taha Naskh';
-  src: url('./assets/fonts/kfgqpc_hafs.woff2') format('woff2');
+  src: url('/assets/fonts/kfgqpc_hafs.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -130,7 +174,7 @@ body {
 
 /* ==========================================================================
    MUSHAF PAGE CONTAINER & 15-LINES EXACT LAYOUT
-   ========================================================================= */
+   ========================================================================== */
 
 .mushaf-page-card {
   background-color: var(--bg-mushaf-page);

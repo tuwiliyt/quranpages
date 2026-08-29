@@ -4,13 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Mushaf Al-Qur'an Standar Indonesia (LPMQ Kemenag RI & Quran.com)</title>
-  <meta name="description" content="Aplikasi Al-Qur'an Web resmi berstandar Mushaf Indonesia 15 Baris (LPMQ Kemenag RI) dengan tampilan persis cetakan aslinya, audio murottal kata demi kata, dan terjemahan resmi Kemenag RI." />
+  <meta name="description" content="Aplikasi Al-Qur'an Web resmi berstandar Mushaf Indonesia 15 Baris (LPMQ Kemenag RI) dengan tampilan persis cetakan aslinya, audio murottal karaoke kata demi kata, dan 100% aset lokal offline." />
   
-  <!-- Favicon -->
+  <!-- PWA Manifest & Favicon -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#105652" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="alternate icon" href="./favicon.ico" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
 
-  <!-- Standalone Production CSS (Zero Warnings) -->
+  <!-- 100% Standalone Offline CSS -->
   <link rel="stylesheet" href="./css/tailwind.css" />
   <link rel="stylesheet" href="./css/mushaf.css" />
 
@@ -34,19 +37,22 @@
 </head>
 <body class="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors antialiased select-none selection:bg-amber-200">
 
-  <!-- Loading Indicator Overlay -->
-  <div id="loading-indicator" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-xs flex items-center justify-center pointer-events-none transition-opacity" style="display: none;">
-    <div class="p-4 bg-white dark:bg-stone-900 rounded-2xl shadow-2xl border border-stone-200 dark:border-stone-800 flex items-center gap-3">
-      <div class="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-      <span class="text-xs font-bold text-stone-700 dark:text-stone-300">Memuat Halaman Mushaf...</span>
-    </div>
-  </div>
-
-  <!-- Main React/JS App Root -->
+  <!-- Main App Container -->
   <div id="app"></div>
 
   <!-- App Entry Script -->
   <script type="module" src="./js/app.js"></script>
+
+  <!-- PWA Offline Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('PWA Service Worker registered:', reg.scope))
+          .catch((err) => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
 
 </body>
 </html>
