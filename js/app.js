@@ -119,9 +119,10 @@ class QuranApp {
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-      if (e.key === 'ArrowRight') {
+      // RTL Mushaf navigation: ← = halaman berikutnya, → = halaman sebelumnya
+      if (e.key === 'ArrowLeft') {
         this.nextPage({ autoPlay: this.state.isAudioPlaying });
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === 'ArrowRight') {
         this.prevPage({ autoPlay: this.state.isAudioPlaying });
       } else if (e.code === 'Space') {
         e.preventDefault();
@@ -144,6 +145,7 @@ class QuranApp {
       touchEndX = e.changedTouches[0].screenX;
       const diff = touchEndX - touchStartX;
       if (Math.abs(diff) > 70) {
+        // RTL Mushaf: geser kiri = halaman berikutnya, geser kanan = halaman sebelumnya
         if (diff > 0) {
           this.prevPage({ autoPlay: this.state.isAudioPlaying });
         } else {
@@ -289,17 +291,19 @@ class QuranApp {
 
     const navFloatHtml = `
       <div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-white/90 dark:bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-stone-200 dark:border-stone-800 transition-transform">
-        <button id="btn-prev-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage <= 1 ? 'opacity-40 pointer-events-none' : ''}">
+        <!-- RTL Mushaf: Halaman berikutnya di KIRI (◄) -->
+        <button id="btn-next-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage >= 604 ? 'opacity-40 pointer-events-none' : ''}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M15 18l-6-6 6-6"/></svg>
-          <span class="hidden sm:inline">Sebelumnya</span>
+          <span class="hidden sm:inline">Berikutnya</span>
         </button>
 
         <span class="text-xs font-bold text-emerald-800 dark:text-amber-400 px-2">
           ${currentPage} / 604
         </span>
 
-        <button id="btn-next-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage >= 604 ? 'opacity-40 pointer-events-none' : ''}">
-          <span class="hidden sm:inline">Berikutnya</span>
+        <!-- RTL Mushaf: Halaman sebelumnya di KANAN (►) -->
+        <button id="btn-prev-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage <= 1 ? 'opacity-40 pointer-events-none' : ''}">
+          <span class="hidden sm:inline">Sebelumnya</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
