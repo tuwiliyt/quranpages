@@ -1,5 +1,5 @@
 /**
- * MODAL DIALOGS COMPONENT (RESPONSIVE FOR ALL SCREEN SIZES)
+ * MODAL DIALOGS COMPONENT (ACCESSIBLE, INTUITIVE & RESPONSIVE)
  */
 
 import { CHAPTERS } from '../data/chapters.js';
@@ -20,7 +20,7 @@ export function renderSurahPickerModal(currentSurahId) {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
               <span>Daftar Surah & Juz</span>
             </h2>
-            <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+            <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
           </div>
@@ -30,7 +30,7 @@ export function renderSurahPickerModal(currentSurahId) {
             <button id="tab-surah" class="flex-1 py-2 rounded-xl bg-emerald-700 dark:bg-amber-600 text-white transition-all text-center">
               114 Surah
             </button>
-            <button id="tab-juz" class="flex-1 py-2 rounded-xl text-stone-600 dark:text-stone-400 hover:text-stone-900 transition-all text-center">
+            <button id="tab-juz" class="flex-1 py-2 rounded-xl text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 transition-all text-center">
               30 Juz
             </button>
           </div>
@@ -48,10 +48,10 @@ export function renderSurahPickerModal(currentSurahId) {
           <!-- 114 Surahs Grid -->
           <div id="tab-content-surah" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${CHAPTERS.map(ch => `
-              <div class="surah-item p-2.5 sm:p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all group ${ch.id === currentSurahId ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500' : 'hover:bg-stone-50 dark:hover:bg-stone-800/50'}"
+              <div class="surah-item p-2.5 sm:p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all group active:scale-[0.98] ${ch.id === currentSurahId ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 shadow-sm' : 'hover:bg-stone-50 dark:hover:bg-stone-800/50'}"
                    data-id="${ch.id}" data-start-page="${ch.pages[0]}" data-name="${ch.name_simple.toLowerCase()}" data-meaning="${ch.translated_name.name.toLowerCase()}">
                 <div class="flex items-center gap-2.5">
-                  <div class="w-7 h-7 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 group-hover:bg-emerald-700 group-hover:text-white flex items-center justify-center font-bold text-xs">
+                  <div class="w-7 h-7 rounded-lg ${ch.id === currentSurahId ? 'bg-emerald-700 text-white' : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300'} group-hover:bg-emerald-700 group-hover:text-white flex items-center justify-center font-bold text-xs transition-colors">
                     ${ch.id}
                   </div>
                   <div>
@@ -70,10 +70,10 @@ export function renderSurahPickerModal(currentSurahId) {
           <!-- 30 Juzs Grid -->
           <div id="tab-content-juz" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${JUZS.map(j => `
-              <div class="juz-item p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all hover:bg-stone-50 dark:hover:bg-stone-800/50"
+              <div class="juz-item p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all group active:scale-[0.98] hover:bg-stone-50 dark:hover:bg-stone-800/50"
                    data-juz="${j.id}" data-start-page="${j.pages[0]}">
                 <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-bold text-xs">
+                  <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 group-hover:bg-emerald-700 group-hover:text-white flex items-center justify-center font-bold text-xs transition-colors">
                     ${j.id}
                   </div>
                   <div>
@@ -102,10 +102,10 @@ export function renderSearchModal() {
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
           <div class="flex items-center gap-2 flex-1 mr-2">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            <input id="search-input-field" type="text" placeholder="Ketik kata kunci terjemahan, nama surah, atau nomor ayat..."
+            <input id="search-input-field" type="text" placeholder="Ketik kata kunci terjemahan, nama surah, atau ayat..."
                    class="w-full bg-transparent text-sm sm:text-base font-medium text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none" autofocus />
           </div>
-          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
@@ -131,7 +131,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-amber-500"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
             <span>Penanda & Terakhir Baca</span>
           </h2>
-          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
@@ -142,7 +142,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
           <div>
             <h3 class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Terakhir Dibaca</h3>
             ${lastRead ? `
-              <div class="last-read-card p-4 rounded-2xl bg-gradient-to-br from-emerald-800 to-emerald-950 text-white shadow-lg cursor-pointer hover:scale-[1.02] transition-all flex items-center justify-between"
+              <div class="last-read-card p-4 rounded-2xl bg-gradient-to-br from-emerald-800 to-emerald-950 text-white shadow-lg cursor-pointer hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-between"
                    data-page="${lastRead.page}">
                 <div>
                   <span class="text-[10px] uppercase font-bold text-emerald-300">Juz ${lastRead.juz}</span>
@@ -166,13 +166,13 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
             ${bookmarks.length > 0 ? `
               <div class="flex flex-col gap-2">
                 ${bookmarks.map(b => `
-                  <div class="bookmark-item p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all"
+                  <div class="bookmark-item p-3 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-amber-500 cursor-pointer flex items-center justify-between transition-all group hover:bg-stone-50 dark:hover:bg-stone-800/50"
                        data-page="${b.page}">
                     <div>
                       <h4 class="text-xs sm:text-sm font-bold text-stone-900 dark:text-stone-100">${b.surahName} : Ayat ${b.verseNumber}</h4>
                       <p class="text-[10px] text-stone-500">Hal. ${b.page} • Disimpan ${b.time}</p>
                     </div>
-                    <button class="btn-delete-bookmark p-1.5 text-stone-400 hover:text-red-500 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800" data-verse-key="${b.verseKey}" title="Hapus Bookmark">
+                    <button class="btn-delete-bookmark p-1.5 text-stone-400 hover:text-red-500 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" data-verse-key="${b.verseKey}" title="Hapus Bookmark">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                     </button>
                   </div>
@@ -180,7 +180,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
               </div>
             ` : `
               <div class="p-6 rounded-2xl border border-dashed border-stone-300 dark:border-stone-700 text-center text-xs text-stone-400">
-                Klik ikon bookmark pada nomor ayat untuk menyimpannya di sini.
+                Klik nomor ayat pada halaman untuk menyimpannya ke bookmark.
               </div>
             `}
           </div>
@@ -202,7 +202,7 @@ export function renderDoasModal() {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
             <span>Doa Khotmil Qur'an & Doa Pilihan</span>
           </h2>
-          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
@@ -229,21 +229,24 @@ export function renderTajwidModal() {
       <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
-          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100">Panduan Hukum Tajwid</h2>
-          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-amber-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span>Panduan Hukum Tajwid</span>
+          </h2>
+          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
 
         <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-3">
           ${TAJWID_RULES.map(rule => `
-            <div class="p-3 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-1.5">
+            <div class="p-3 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-1.5 bg-stone-50/50 dark:bg-stone-800/40">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">${rule.name}</span>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${rule.badgeClass}">${rule.category}</span>
               </div>
-              <p class="text-xs text-stone-600 dark:text-stone-300">${rule.desc}</p>
-              <div class="bg-stone-50 dark:bg-stone-800 p-2.5 rounded-xl font-arabic text-base sm:text-lg text-stone-900 dark:text-stone-100 text-right">
+              <p class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">${rule.desc}</p>
+              <div class="bg-white dark:bg-stone-900 p-2.5 rounded-xl font-arabic text-base sm:text-lg text-stone-900 dark:text-stone-100 text-right border border-stone-100 dark:border-stone-800">
                 ${rule.example}
               </div>
             </div>
@@ -263,8 +266,11 @@ export function renderSettingsModal(state) {
       <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-md max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
-          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100">Pengaturan Tampilan & Audio</h2>
-          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500">
+          <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Pengaturan Tampilan & Audio</span>
+          </h2>
+          <button class="modal-close p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
@@ -275,16 +281,16 @@ export function renderSettingsModal(state) {
           <div>
             <label class="block font-bold text-stone-700 dark:text-stone-300 mb-2">Pilihan Tema</label>
             <div class="grid grid-cols-2 gap-2">
-              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'paper' ? 'border-amber-600 bg-amber-50 dark:bg-amber-950/30' : 'border-stone-200 dark:border-stone-800'} text-left font-medium" data-theme="paper">
+              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'paper' ? 'border-amber-600 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 font-bold' : 'border-stone-200 dark:border-stone-800'} text-left font-medium active:scale-95 transition-all" data-theme="paper">
                 📜 Kertas Mushaf (Default)
               </button>
-              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'light' ? 'border-amber-600 bg-amber-50 dark:bg-amber-950/30' : 'border-stone-200 dark:border-stone-800'} text-left font-medium" data-theme="light">
+              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'light' ? 'border-amber-600 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 font-bold' : 'border-stone-200 dark:border-stone-800'} text-left font-medium active:scale-95 transition-all" data-theme="light">
                 ⚪ Clean White
               </button>
-              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'dark-emerald' ? 'border-amber-600 bg-emerald-950/40' : 'border-stone-200 dark:border-stone-800'} text-left font-medium" data-theme="dark-emerald">
+              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'dark-emerald' ? 'border-amber-600 bg-emerald-950/40 text-amber-300 font-bold' : 'border-stone-200 dark:border-stone-800'} text-left font-medium active:scale-95 transition-all" data-theme="dark-emerald">
                 🌲 Dark Emerald
               </button>
-              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'midnight' ? 'border-amber-600 bg-stone-900' : 'border-stone-200 dark:border-stone-800'} text-left font-medium" data-theme="midnight">
+              <button class="btn-theme-select p-2.5 rounded-xl border ${currentTheme === 'midnight' ? 'border-amber-600 bg-stone-950 text-amber-300 font-bold' : 'border-stone-200 dark:border-stone-800'} text-left font-medium active:scale-95 transition-all" data-theme="midnight">
                 🌑 OLED Midnight
               </button>
             </div>
@@ -293,7 +299,7 @@ export function renderSettingsModal(state) {
           <!-- Font Type -->
           <div>
             <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1.5">Standar Kaligrafi / Font</label>
-            <select id="select-font-type" class="w-full bg-stone-100 dark:bg-stone-800 p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 focus:outline-none">
+            <select id="select-font-type" class="w-full bg-stone-100 dark:bg-stone-800 p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
               <option value="v2" ${fontType === 'v2' ? 'selected' : ''}>Standar Madinah (King Fahd QCF V2 - Rekomendasi)</option>
               <option value="v1" ${fontType === 'v1' ? 'selected' : ''}>Standar Madinah (King Fahd QCF V1)</option>
               <option value="lpmq" ${fontType === 'lpmq' ? 'selected' : ''}>Standar Indonesia (LPMQ Kemenag RI)</option>
@@ -304,7 +310,7 @@ export function renderSettingsModal(state) {
           <!-- Qari Selection -->
           <div>
             <label class="block font-bold text-stone-700 dark:text-stone-300 mb-1.5">Pilihan Qari Audio Murottal</label>
-            <select id="select-qari" class="w-full bg-stone-100 dark:bg-stone-800 p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 focus:outline-none">
+            <select id="select-qari" class="w-full bg-stone-100 dark:bg-stone-800 p-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
               ${RECITERS.map(r => `
                 <option value="${r.id}" ${r.id === selectedReciterId ? 'selected' : ''}>${r.name} (${r.subtext})</option>
               `).join('')}
@@ -322,6 +328,19 @@ export function renderSettingsModal(state) {
               <span class="font-medium text-stone-700 dark:text-stone-300">Tampilkan Terjemahan Kemenag</span>
               <input type="checkbox" id="toggle-translation" class="w-4 h-4 text-emerald-600 rounded" ${showTranslation ? 'checked' : ''} />
             </label>
+          </div>
+
+          <!-- Extra Quick Links -->
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-stone-200 dark:border-stone-800">
+            <button id="btn-open-tajwid-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-amber-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <span>Panduan Tajwid</span>
+            </button>
+
+            <button id="btn-open-doas-from-settings" class="p-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-emerald-600"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <span>Doa Khatam</span>
+            </button>
           </div>
 
         </div>

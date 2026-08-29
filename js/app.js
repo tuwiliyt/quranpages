@@ -201,7 +201,6 @@ class QuranApp {
         const data = await fetchPageVerses(currentPage);
         this.state.pageData = data.verses || [];
         
-        // Setup queue with continuous multi-page auto-play callback
         audioService.setPageQueue(this.state.pageData, () => {
           this.nextPage({ autoPlay: true });
         });
@@ -223,7 +222,6 @@ class QuranApp {
     await this.loadCurrentView();
     window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // Continue seamless playback on the new page
     if (shouldAutoPlay && this.state.pageData && this.state.pageData.length > 0) {
       const firstVerse = this.state.pageData[0].verse_key;
       audioService.playVerse(firstVerse);
@@ -277,7 +275,7 @@ class QuranApp {
 
     const navFloatHtml = `
       <div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-white/90 dark:bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-stone-200 dark:border-stone-800 transition-transform">
-        <button id="btn-prev-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors flex items-center gap-1 text-xs font-semibold ${currentPage <= 1 ? 'opacity-40 pointer-events-none' : ''}">
+        <button id="btn-prev-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage <= 1 ? 'opacity-40 pointer-events-none' : ''}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M15 18l-6-6 6-6"/></svg>
           <span class="hidden sm:inline">Sebelumnya</span>
         </button>
@@ -286,7 +284,7 @@ class QuranApp {
           ${currentPage} / 604
         </span>
 
-        <button id="btn-next-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors flex items-center gap-1 text-xs font-semibold ${currentPage >= 604 ? 'opacity-40 pointer-events-none' : ''}">
+        <button id="btn-next-page" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold ${currentPage >= 604 ? 'opacity-40 pointer-events-none' : ''}">
           <span class="hidden sm:inline">Berikutnya</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M9 18l6-6-6-6"/></svg>
         </button>
@@ -504,9 +502,6 @@ class QuranApp {
     }
   }
 
-  /**
-   * Real-Time Karaoke Word-by-Word Highlight
-   */
   updateKaraokeWordHighlight(verseKey, wordPosition) {
     if (!verseKey) {
       this.clearAllWordHighlights();
@@ -551,6 +546,8 @@ class QuranApp {
       this.attachBookmarksEvents();
     } else if (type === 'doas') {
       modalRoot.innerHTML = renderDoasModal();
+    } else if (type === 'tajwid') {
+      modalRoot.innerHTML = renderTajwidModal();
     } else if (type === 'settings') {
       modalRoot.innerHTML = renderSettingsModal(this.state);
       this.attachSettingsEvents();
@@ -580,9 +577,9 @@ class QuranApp {
 
     tabSurah?.addEventListener('click', () => {
       tabSurah.classList.add('bg-emerald-700', 'dark:bg-amber-600', 'text-white');
-      tabSurah.classList.remove('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600');
+      tabSurah.classList.remove('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-400');
       tabJuz.classList.remove('bg-emerald-700', 'dark:bg-amber-600', 'text-white');
-      tabJuz.classList.add('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600');
+      tabJuz.classList.add('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-400');
       contentSurah.classList.remove('hidden');
       contentJuz.classList.add('hidden');
       if (filterContainer) filterContainer.style.display = 'block';
@@ -590,9 +587,9 @@ class QuranApp {
 
     tabJuz?.addEventListener('click', () => {
       tabJuz.classList.add('bg-emerald-700', 'dark:bg-amber-600', 'text-white');
-      tabJuz.classList.remove('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600');
+      tabJuz.classList.remove('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-400');
       tabSurah.classList.remove('bg-emerald-700', 'dark:bg-amber-600', 'text-white');
-      tabSurah.classList.add('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600');
+      tabSurah.classList.add('bg-stone-100', 'dark:bg-stone-800', 'text-stone-600', 'dark:text-stone-400');
       contentJuz.classList.remove('hidden');
       contentSurah.classList.add('hidden');
       if (filterContainer) filterContainer.style.display = 'none';
@@ -756,6 +753,14 @@ class QuranApp {
     document.getElementById('toggle-translation')?.addEventListener('change', (e) => {
       this.state.showTranslation = e.target.checked;
       this.render();
+    });
+
+    document.getElementById('btn-open-tajwid-from-settings')?.addEventListener('click', () => {
+      this.openModal('tajwid');
+    });
+
+    document.getElementById('btn-open-doas-from-settings')?.addEventListener('click', () => {
+      this.openModal('doas');
     });
   }
 
