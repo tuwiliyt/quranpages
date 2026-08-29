@@ -1,5 +1,5 @@
 /**
- * MODAL DIALOGS COMPONENT (ACCESSIBLE, INTUITIVE & RESPONSIVE)
+ * MODAL DIALOGS COMPONENT (ACCESSIBLE, INTUITIVE & SMOOTH SCROLLING)
  */
 
 import { CHAPTERS } from '../data/chapters.js';
@@ -11,10 +11,10 @@ import { RECITERS } from '../services/audio.js';
 export function renderSurahPickerModal(currentSurahId) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
-        <!-- Header & Tabs -->
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex flex-col gap-3">
+        <!-- Header & Tabs (Fixed Top) -->
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex flex-col gap-3 flex-shrink-0 bg-white dark:bg-stone-900">
           <div class="flex items-center justify-between">
             <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -43,8 +43,8 @@ export function renderSurahPickerModal(currentSurahId) {
           </div>
         </div>
 
-        <!-- Content Lists -->
-        <div class="overflow-y-auto p-3 sm:p-4 flex-1">
+        <!-- Scrollable Content Lists -->
+        <div class="overflow-y-auto modal-scrollable p-3 sm:p-4 flex-1 min-h-0">
           <!-- 114 Surahs Grid -->
           <div id="tab-content-surah" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${CHAPTERS.map(ch => `
@@ -97,9 +97,9 @@ export function renderSurahPickerModal(currentSurahId) {
 export function renderSearchModal() {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-xl max-h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-xl max-h-[85vh] h-[80vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <div class="flex items-center gap-2 flex-1 mr-2">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             <input id="search-input-field" type="text" placeholder="Ketik kata kunci terjemahan, nama surah, atau ayat..."
@@ -110,7 +110,7 @@ export function renderSearchModal() {
           </button>
         </div>
 
-        <div id="search-results-container" class="overflow-y-auto p-4 flex-1 flex flex-col gap-2.5">
+        <div id="search-results-container" class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-2.5">
           <div class="text-center py-10 text-stone-400 text-xs sm:text-sm">
             Ketik minimal 2 huruf untuk memulai pencarian cerdas Al-Qur'an.
           </div>
@@ -126,7 +126,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
     <div class="fixed inset-0 z-50 flex items-center justify-end bg-black/60 backdrop-blur-sm animate-fade-in">
       <div class="bg-white dark:bg-stone-900 w-full max-w-md h-full flex flex-col shadow-2xl border-l border-stone-200 dark:border-stone-800 animate-slide-left overflow-hidden">
         
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-amber-500"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
             <span>Penanda & Terakhir Baca</span>
@@ -136,7 +136,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
           </button>
         </div>
 
-        <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-4">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4">
           
           <!-- Last Read Card -->
           <div>
@@ -195,9 +195,10 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
 export function renderDoasModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
+        <!-- Header (Fixed Top) -->
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <div class="flex items-center gap-2">
             ${fromSettings ? `
               <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
@@ -214,15 +215,16 @@ export function renderDoasModal(fromSettings = false) {
           </button>
         </div>
 
-        <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-4">
+        <!-- Scrollable Content Body -->
+        <div class="overflow-y-auto modal-scrollable p-4 sm:p-5 flex-1 min-h-0 flex flex-col gap-4">
           ${DOAS.map(doa => `
-            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5">
+            <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5 shadow-sm">
               <div class="flex items-center justify-between">
                 <h3 class="font-bold text-sm sm:text-base text-emerald-800 dark:text-amber-400">${doa.title}</h3>
-                <span class="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full">${doa.category}</span>
+                <span class="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2.5 py-0.5 rounded-full">${doa.category}</span>
               </div>
               <p class="font-arabic text-xl sm:text-2xl text-stone-900 dark:text-stone-100 text-right leading-loose py-2">${doa.arabic}</p>
-              <p class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-300 italic">${doa.latin}</p>
+              <p class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-300 italic leading-relaxed">${doa.latin}</p>
               <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">${doa.translation}</p>
             </div>
           `).join('')}
@@ -236,9 +238,10 @@ export function renderDoasModal(fromSettings = false) {
 export function renderTajwidModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
+        <!-- Header (Fixed Top) -->
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <div class="flex items-center gap-2">
             ${fromSettings ? `
               <button id="btn-back-to-settings" class="p-1.5 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 transition-colors mr-1" title="Kembali ke Pengaturan">
@@ -255,9 +258,10 @@ export function renderTajwidModal(fromSettings = false) {
           </button>
         </div>
 
-        <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-3">
+        <!-- Scrollable Content Body -->
+        <div class="overflow-y-auto modal-scrollable p-4 sm:p-5 flex-1 min-h-0 flex flex-col gap-3">
           ${TAJWID_RULES.map(rule => `
-            <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40">
+            <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100">${rule.name}</span>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold" style="background-color: ${rule.color}25; color: ${rule.color};">
@@ -284,7 +288,7 @@ export function renderSettingsModal(state) {
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-md max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
         
-        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
+        <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5 text-emerald-700 dark:text-amber-400"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             <span>Pengaturan Tampilan & Audio</span>
@@ -294,7 +298,7 @@ export function renderSettingsModal(state) {
           </button>
         </div>
 
-        <div class="overflow-y-auto p-4 flex-1 flex flex-col gap-4 text-xs sm:text-sm">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4 text-xs sm:text-sm">
           
           <!-- Theme Selection -->
           <div>

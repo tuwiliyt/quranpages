@@ -430,3 +430,30 @@ html, body {
     font-size: 0.9rem;
   }
 }
+
+/* ==========================================================================
+   MODAL SCROLLING & TOUCH ENHANCEMENTS
+   ========================================================================== */
+
+.modal-scrollable {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold) transparent;
+}
+
+.modal-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--color-gold);
+  border-radius: 9999px;
+}
+.modal-scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-gold-dark);
+}
