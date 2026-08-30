@@ -433,11 +433,27 @@ class QuranApp {
     document.querySelectorAll('.quran-word').forEach(wordEl => {
       wordEl.addEventListener('click', (e) => {
         e.stopPropagation();
+        const vk = wordEl.dataset.verseKey;
+        const pos = wordEl.dataset.pos;
+        
+        // BUGFIX: Do NOT trust wordEl.dataset.audio from Quran.com API!
+        // The API's audio_url is offset by waqf/punctuation marks in their database,
+        // but the CDN mp3 files are named strictly sequentially for spoken words.
+        // We construct the correct URL manually using our cleaned sequential position.
+        let correctAudioUrl = '';
+        if (vk && pos) {
+          const [surah, ayah] = vk.split(':');
+          const surahPad = surah.padStart(3, '0');
+          const ayahPad = ayah.padStart(3, '0');
+          const posPad = pos.padStart(3, '0');
+          correctAudioUrl = `wbw/${surahPad}_${ayahPad}_${posPad}.mp3`;
+        }
+
         const wordData = {
           location: wordEl.dataset.location,
-          verseKey: wordEl.dataset.verseKey,
-          pos: wordEl.dataset.pos,
-          audioUrl: wordEl.dataset.audio,
+          verseKey: vk,
+          pos: pos,
+          audioUrl: correctAudioUrl,
           translation: decodeURIComponent(wordEl.dataset.translation || ''),
           transliteration: decodeURIComponent(wordEl.dataset.transliteration || ''),
           uthmani: decodeURIComponent(wordEl.dataset.uthmani || '')
