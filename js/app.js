@@ -694,17 +694,20 @@ class QuranApp {
           return;
         }
 
-        container.innerHTML = results.map(res => {
+        container.innerHTML = results.map((res, index) => {
           const [sId, aNum] = res.verse_key.split(':');
           const ch = CHAPTER_MAP[sId] || { name_simple: 'Surah' };
+          const title = res.title || `${ch.name_simple} : Ayat ${aNum}`;
+          const isJump = res.is_jump;
+          
           return `
-            <div class="search-result-card p-4 rounded-2xl border border-stone-200 dark:border-stone-800 hover:border-emerald-500 cursor-pointer transition-all"
-                 data-verse-key="${res.verse_key}">
+            <div class="search-result-card p-4 rounded-2xl border ${isJump ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'border-stone-200 dark:border-stone-800'} hover:border-emerald-500 cursor-pointer transition-all"
+                 data-verse-key="${res.verse_key}" data-target-page="${res.target_page || ''}" data-index="${index}">
               <div class="flex items-center justify-between mb-1">
-                <span class="font-bold text-sm text-emerald-800 dark:text-amber-400">${ch.name_simple} : Ayat ${aNum}</span>
+                <span class="font-bold text-sm ${isJump ? 'text-emerald-700 dark:text-emerald-400' : 'text-emerald-800 dark:text-amber-400'}">${title}</span>
                 <span class="text-xs bg-stone-100 dark:bg-stone-800 px-2 py-0.5 rounded-full">${res.verse_key}</span>
               </div>
-              <p class="text-xs text-stone-600 dark:text-stone-300 line-clamp-2 leading-relaxed">${res.text}</p>
+              <p class="text-xs text-stone-600 dark:text-stone-300 line-clamp-2 leading-relaxed" ${isJump ? '' : 'dir="rtl" style="text-align: left;"'}>${res.text}</p>
             </div>
           `;
         }).join('');
@@ -712,11 +715,38 @@ class QuranApp {
         container.querySelectorAll('.search-result-card').forEach(card => {
           card.addEventListener('click', async () => {
             const vk = card.dataset.verseKey;
-            const [sId] = vk.split(':');
-            const ch = CHAPTER_MAP[sId];
-            if (ch) {
+            const explicitPage = card.dataset.targetPage;
+            let targetPage = parseInt(explicitPage, 10);
+
+            // If we don't have an explicit target page, calculate it from verseKey
+            if (!targetPage && vk) {
+              const [sId, aNum] = vk.split(':').map(Number);
+              // Simple calculation: fetch chapter data and find the page
+              // Since we don't want to load all data synchronously, we can estimate
+              // or use the PAGES_INDEX from api.js if exported. For now, fallback to chapter start
+              // if we can't easily find it. Let's dynamically import PAGES_INDEX to find exact page:
+              try {
+                const { PAGES_INDEX } = await import('./data/pages_index.js');
+                const pIndex = PAGES_INDEX.findIndex(p => {
+                  const [startSId, startANum] = p.start_verse_key.split(':').map(Number);
+                  const [endSId, endANum] = p.end_verse_key.split(':').map(Number);
+                  
+                  if (sId > startSId && sId < endSId) return true;
+                  if (sId === startSId && sId === endSId) return aNum >= startANum && aNum <= endANum;
+                  if (sId === startSId) return aNum >= startANum;
+                  if (sId === endSId) return aNum <= endANum;
+                  return false;
+                });
+                if (pIndex !== -1) targetPage = PAGES_INDEX[pIndex].page;
+              } catch (e) {
+                const ch = CHAPTER_MAP[sId];
+                if (ch) targetPage = ch.pages[0];
+              }
+            }
+
+            if (targetPage) {
               this.closeModal();
-              this.setPage(ch.pages[0], this.state.isAudioPlaying);
+              this.setPage(targetPage, this.state.isAudioPlaying);
             }
           });
         });

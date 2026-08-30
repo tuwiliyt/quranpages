@@ -100,24 +100,103 @@ export async function fetchChapterVerses(chapterId) {
   }
 }
 
+import { JUZS } from '../data/juzs.js';
+import { PAGES_INDEX } from '../data/pages_index.js';
+
 /**
- * Fast Local Search Engine across Surahs & Translations
+ * Smart Local Search Engine (Regex Parser + Full Text)
  */
 export async function searchQuran(query) {
-  if (!query || query.trim().length < 2) return [];
+  if (!query || query.trim().length < 1) return [];
   const q = query.toLowerCase().trim();
   const results = [];
 
-  // Search in chapters list
+  // 1. SMART PARSER: Page / Halaman
+  const pageMatch = q.match(/^(?:hal|halaman|page|p)\s*(\d+)$/i);
+  if (pageMatch) {
+    const pageNum = parseInt(pageMatch[1], 10);
+    if (pageNum >= 1 && pageNum <= 604) {
+      results.push({
+        is_jump: true,
+        target_page: pageNum,
+        verse_key: PAGES_INDEX[pageNum - 1].start_verse_key,
+        title: `Lompat ke Halaman ${pageNum}`,
+        text: `Juz ${PAGES_INDEX[pageNum - 1].juz} • Menampilkan awal halaman ${pageNum}`
+      });
+      return results; // Return immediate jump
+    }
+  }
+
+  // 2. SMART PARSER: Juz
+  const juzMatch = q.match(/^juz\s*(\d+)$/i);
+  if (juzMatch) {
+    const juzNum = parseInt(juzMatch[1], 10);
+    if (juzNum >= 1 && juzNum <= 30) {
+      const juzData = JUZS[juzNum - 1];
+      results.push({
+        is_jump: true,
+        target_page: juzData.start_page,
+        verse_key: juzData.start_verse_key,
+        title: `Lompat ke Juz ${juzNum}`,
+        text: `Dimulai dari Surah ${juzData.first_surah_name_simple} • Halaman ${juzData.start_page}`
+      });
+      return results;
+    }
+  }
+
+  // 3. SMART PARSER: Surah and Ayah (e.g., "baqarah 255" or "2 255" or "2:255")
+  // First, check explicit format Number:Number or Number Number
+  let surahId = null;
+  let ayahNum = null;
+  
+  const numericMatch = q.match(/^(\d+)[^\w\d](\d+)$/);
+  if (numericMatch) {
+    surahId = parseInt(numericMatch[1], 10);
+    ayahNum = parseInt(numericMatch[2], 10);
+  } else {
+    // Check text format like "yasin 9" or "al kahfi 10"
+    const textMatch = q.match(/^([a-z\s-]+)\s+(\d+)$/i);
+    if (textMatch) {
+      const surahStr = textMatch[1].trim();
+      ayahNum = parseInt(textMatch[2], 10);
+      // Find matching surah
+      const foundSurah = CHAPTERS.find(ch => 
+        ch.name_simple.toLowerCase().includes(surahStr) || 
+        ch.translated_name.name.toLowerCase().includes(surahStr)
+      );
+      if (foundSurah) surahId = foundSurah.id;
+    }
+  }
+
+  if (surahId && ayahNum && CHAPTER_MAP[surahId]) {
+    const ch = CHAPTER_MAP[surahId];
+    if (ayahNum >= 1 && ayahNum <= ch.verses_count) {
+      // Find which page this verse belongs to
+      const verseKey = `${surahId}:${ayahNum}`;
+      results.push({
+        is_jump: true,
+        verse_key: verseKey,
+        target_page: null, // We will calculate this dynamically in app.js
+        title: `Surah ${ch.name_simple} : Ayat ${ayahNum}`,
+        text: `Lompat langsung ke ayat ${ayahNum} di Surah ${ch.name_simple} (${ch.translated_name.name})`
+      });
+    }
+  }
+
+  // 4. Fallback: Search in chapters list (Metadata)
   CHAPTERS.forEach(ch => {
     if (ch.name_simple.toLowerCase().includes(q) || ch.translated_name.name.toLowerCase().includes(q)) {
       results.push({
+        is_jump: true,
+        target_page: ch.pages[0],
         verse_key: `${ch.id}:1`,
-        text: `Surah ${ch.name_simple} (${ch.translated_name.name}) — ${ch.verses_count} ayat • Tempat turun: ${ch.revelation_place === 'makkah' ? 'Makkiyyah' : 'Madaniyyah'} • Halaman awal: ${ch.pages[0]}.`
+        title: `Surah ${ch.name_simple} (${ch.translated_name.name})`,
+        text: `${ch.verses_count} ayat • Tempat turun: ${ch.revelation_place === 'makkah' ? 'Makkiyyah' : 'Madaniyyah'} • Halaman awal: ${ch.pages[0]}.`
       });
     }
   });
 
+  // 5. Fallback: Full text search via API
   if (results.length < 5) {
     try {
       const url = `https://api.quran.com/api/v4/search?q=${encodeURIComponent(query)}&size=15&page=1&language=id`;
@@ -125,7 +204,14 @@ export async function searchQuran(query) {
       if (res.ok) {
         const data = await res.json();
         const apiResults = data.search?.results || [];
-        results.push(...apiResults);
+        apiResults.forEach(r => {
+          results.push({
+            is_jump: false,
+            verse_key: r.verse_key,
+            title: `Ayat ${r.verse_key}`,
+            text: r.text
+          });
+        });
       }
     } catch (e) {}
   }
