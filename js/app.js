@@ -412,6 +412,26 @@ class QuranApp {
 
     document.getElementById('btn-audio-close')?.addEventListener('click', () => {
       audioService.stop();
+      this.state.isAudioPlaying = false;
+      this.state.currentAudioVerse = null;
+      this.renderAudioBar();
+    });
+
+    document.getElementById('btn-audio-view-translation')?.addEventListener('click', () => {
+      const activeVerseKey = this.state.currentAudioVerse;
+      if (activeVerseKey) {
+        if (this.state.viewMode !== 'ayah') {
+          this.switchMode('ayah');
+        }
+        setTimeout(() => {
+          const verseEl = document.querySelector(`[data-verse-key="${activeVerseKey}"]`);
+          if (verseEl) {
+            verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            verseEl.classList.add('bg-amber-50', 'dark:bg-amber-900/20');
+            setTimeout(() => verseEl.classList.remove('bg-amber-50', 'dark:bg-amber-900/20'), 2000);
+          }
+        }, 100);
+      }
     });
 
     document.getElementById('audio-scrubber')?.addEventListener('click', (e) => {
@@ -509,15 +529,18 @@ class QuranApp {
     const rect = targetEl.getBoundingClientRect();
 
     popoverRoot.innerHTML = `
-      <div id="active-word-popover" class="fixed z-50 p-3 rounded-2xl bg-white dark:bg-stone-900 border border-amber-300 dark:border-stone-700 shadow-2xl animate-fade-in text-center min-w-[170px]"
-           style="top: ${rect.top - 85}px; left: ${Math.max(10, rect.left + (rect.width/2) - 85)}px;">
+      <div id="active-word-popover" class="fixed z-50 p-3 rounded-2xl bg-white dark:bg-stone-900 border border-amber-300 dark:border-stone-700 shadow-2xl animate-fade-in text-center min-w-[200px]"
+           style="top: ${rect.top - 85}px; left: ${Math.max(10, rect.left + (rect.width/2) - 100)}px;">
         <span class="font-arabic text-xl text-stone-900 dark:text-stone-100 block font-bold">${wordData.uthmani}</span>
         <span class="text-xs font-semibold text-emerald-700 dark:text-amber-400 block mt-0.5">${wordData.transliteration}</span>
         <span class="text-xs text-stone-600 dark:text-stone-300 block mt-0.5">${wordData.translation}</span>
         
-        <div class="flex items-center justify-center gap-2 mt-2 pt-2 border-t border-stone-100 dark:border-stone-800">
-          <button id="popover-play-verse" class="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-medium">
-            Putar Ayat
+        <div class="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-stone-100 dark:border-stone-800">
+          <button id="popover-play-verse" class="flex-1 text-[11px] px-2 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-200 font-medium transition-colors">
+            ▶ Ayat
+          </button>
+          <button id="popover-view-translation" class="flex-1 text-[11px] px-2 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200 font-medium transition-colors">
+            📖 Arti
           </button>
         </div>
       </div>
@@ -526,6 +549,21 @@ class QuranApp {
     document.getElementById('popover-play-verse')?.addEventListener('click', () => {
       audioService.playVerse(wordData.verseKey);
       popoverRoot.innerHTML = '';
+    });
+
+    document.getElementById('popover-view-translation')?.addEventListener('click', () => {
+      popoverRoot.innerHTML = '';
+      if (this.state.viewMode !== 'ayah') {
+        this.switchMode('ayah');
+      }
+      setTimeout(() => {
+        const verseEl = document.querySelector(`[data-verse-key="${wordData.verseKey}"]`);
+        if (verseEl) {
+          verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          verseEl.classList.add('bg-amber-50', 'dark:bg-amber-900/20');
+          setTimeout(() => verseEl.classList.remove('bg-amber-50', 'dark:bg-amber-900/20'), 2000);
+        }
+      }, 100);
     });
 
     const closeHandler = (e) => {

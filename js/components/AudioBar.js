@@ -26,10 +26,17 @@ export function renderAudioBar(state) {
             <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-amber-500/20 text-emerald-700 dark:text-amber-400 flex items-center justify-center flex-shrink-0 font-bold text-xs">
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             </div>
-            <div class="flex flex-col min-w-0">
+            <div class="flex flex-col min-w-0 flex-1">
               <span class="text-sm font-bold text-stone-900 dark:text-stone-100 truncate">${verseText}</span>
               <span class="text-xs text-stone-600 dark:text-stone-400 truncate">${currentReciter.name}</span>
             </div>
+            
+            <!-- Quick View Translation Button -->
+            ${currentAudioVerse ? `
+              <button id="btn-audio-view-translation" class="flex-shrink-0 p-1.5 ml-1 text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-800/50 rounded-lg transition-colors flex items-center gap-1 text-[11px] font-bold border border-emerald-100 dark:border-emerald-800" title="Lihat Arti Ayat Ini">
+                📖 Arti
+              </button>
+            ` : ''}
           </div>
 
           <!-- Action Buttons -->
