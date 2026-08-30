@@ -11,7 +11,7 @@ export function renderHeaderNav(state) {
 
   return `
     <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 dark:bg-stone-900/90 border-b border-stone-200 dark:border-stone-800 transition-colors shadow-sm select-none">
-      <div class="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
+      <div class="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-2.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-2 sm:gap-4">
         
         <!-- Left: Logo & Quick Surah/Juz Selector Button -->
         <div class="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
@@ -31,31 +31,8 @@ export function renderHeaderNav(state) {
           </button>
         </div>
 
-        <!-- Center: 4 Reading Mode Switchers -->
-        <div class="flex items-center bg-stone-100 dark:bg-stone-800 p-1 rounded-xl border border-stone-200 dark:border-stone-700 text-xs font-semibold">
-          <button class="btn-mode px-2 sm:px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'page' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="page" title="Mode 1 Halaman Mushaf (15 Baris)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            <span class="hidden md:inline">1 Halaman</span>
-          </button>
-          
-          <button class="btn-mode px-2 sm:px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'twopage' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="twopage" title="Mode 2 Halaman Kitab Berdampingan">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <span class="hidden md:inline">2 Halaman</span>
-          </button>
-
-          <button class="btn-mode px-2 sm:px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'ayah' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="ayah" title="Mode Ayat & Terjemahan Kemenag RI">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
-            <span class="hidden md:inline">Per-Ayat</span>
-          </button>
-
-          <button class="btn-mode px-2 sm:px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'hdscan' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="hdscan" title="Mode Pindaian Scan Cetakan HD">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-            <span class="hidden md:inline">Scan HD</span>
-          </button>
-        </div>
-
-        <!-- Right: Actions Menu (Search, Bookmark, Doa, Settings) -->
-        <div class="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+        <!-- Right: Actions Menu (Placed here in HTML so it aligns with Left on mobile row 1) -->
+        <div class="flex items-center justify-end gap-1 sm:gap-1.5 flex-shrink-0 md:order-last">
           <!-- Page Jump Input (Tablet & Desktop) -->
           <div class="hidden lg:flex items-center gap-1 bg-stone-100 dark:bg-stone-800 px-2 py-1 rounded-xl text-xs border border-stone-200 dark:border-stone-700">
             <span class="text-stone-400 font-medium">Hal:</span>
@@ -64,12 +41,12 @@ export function renderHeaderNav(state) {
           </div>
 
           <!-- Search Button -->
-          <button id="btn-open-search" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all" title="Pencarian Surah & Terjemahan">
+          <button id="btn-open-search" class="p-1.5 sm:p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all" title="Pencarian Surah & Terjemahan">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
           </button>
 
           <!-- Bookmarks Button -->
-          <button id="btn-open-bookmarks" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all relative" title="Penanda Terakhir Baca & Bookmark">
+          <button id="btn-open-bookmarks" class="p-1.5 sm:p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all relative" title="Penanda Terakhir Baca & Bookmark">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-amber-600 dark:text-amber-400"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           </button>
 
@@ -79,8 +56,31 @@ export function renderHeaderNav(state) {
           </button>
 
           <!-- Settings Button -->
-          <button id="btn-open-settings" class="p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all" title="Pengaturan Font, Qari & Tema">
+          <button id="btn-open-settings" class="p-1.5 sm:p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 active:scale-90 transition-all" title="Pengaturan Font, Qari & Tema">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+
+        <!-- Center: 4 Reading Mode Switchers (Drops to second row on mobile) -->
+        <div class="flex items-center justify-center w-full md:w-auto order-last md:order-none bg-stone-100 dark:bg-stone-800 p-1 rounded-xl border border-stone-200 dark:border-stone-700 text-xs font-semibold overflow-x-auto no-scrollbar">
+          <button class="btn-mode px-2 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'page' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="page" title="Mode 1 Halaman Mushaf (15 Baris)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span class="hidden md:inline">1 Halaman</span>
+          </button>
+          
+          <button class="btn-mode px-2 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'twopage' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="twopage" title="Mode 2 Halaman Kitab Berdampingan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span class="hidden md:inline">2 Halaman</span>
+          </button>
+
+          <button class="btn-mode px-2 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'ayah' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="ayah" title="Mode Ayat & Terjemahan Kemenag RI">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+            <span class="hidden md:inline">Per-Ayat</span>
+          </button>
+
+          <button class="btn-mode px-2 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 ${viewMode === 'hdscan' ? 'bg-white dark:bg-stone-900 shadow-sm text-emerald-800 dark:text-amber-400 font-bold' : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'}" data-mode="hdscan" title="Mode Pindaian Scan Cetakan HD">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="hidden md:inline">Scan HD</span>
           </button>
         </div>
 

@@ -19,10 +19,10 @@ export function renderAudioBar(state) {
         </div>
 
         <!-- Player Controls & Info -->
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 w-full">
           
           <!-- Reciter & Verse Info -->
-          <div class="flex items-center gap-2 overflow-hidden flex-1">
+          <div class="flex items-center gap-2 overflow-hidden w-full sm:flex-1">
             <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-amber-500/20 text-emerald-700 dark:text-amber-400 flex items-center justify-center flex-shrink-0 font-bold text-xs">
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             </div>
@@ -33,14 +33,14 @@ export function renderAudioBar(state) {
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+          <div class="flex items-center justify-between sm:justify-end gap-1 w-full sm:w-auto flex-shrink-0">
             <!-- Prev Verse -->
             <button id="btn-audio-prev" class="p-1.5 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" title="Ayat Sebelumnya">
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
             </button>
 
             <!-- Play/Pause -->
-            <button id="btn-audio-toggle" class="p-2 rounded-xl bg-emerald-600 dark:bg-amber-400 text-white dark:text-stone-950 hover:bg-emerald-500 dark:hover:bg-amber-300 hover:scale-105 transition-all shadow-md" title="${isAudioPlaying ? 'Jeda' : 'Putar'}">
+            <button id="btn-audio-toggle" class="p-2 rounded-xl bg-emerald-600 dark:bg-amber-400 text-white dark:text-stone-950 hover:bg-emerald-500 dark:hover:bg-amber-300 hover:scale-105 transition-all shadow-md mx-1 sm:mx-0" title="${isAudioPlaying ? 'Jeda' : 'Putar'}">
               ${isAudioPlaying ? `
                 <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
               ` : `
@@ -54,7 +54,7 @@ export function renderAudioBar(state) {
             </button>
 
             <!-- Speed Button -->
-            <button id="btn-audio-speed" class="px-1.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-amber-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" title="Kecepatan Audio">
+            <button id="btn-audio-speed" class="px-2 py-1 text-[11px] font-bold text-emerald-700 dark:text-amber-300 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" title="Kecepatan Audio">
               ${playbackRate}x
             </button>
 
@@ -65,7 +65,7 @@ export function renderAudioBar(state) {
 
             <!-- Close / Stop Audio -->
             <button id="btn-audio-close" class="p-1.5 text-stone-500 hover:text-red-500 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors" title="Hentikan & Tutup Audio">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
           </div>
 
