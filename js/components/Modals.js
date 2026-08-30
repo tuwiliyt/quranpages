@@ -11,7 +11,7 @@ import { RECITERS } from '../services/audio.js';
 export function renderSurahPickerModal(currentSurahId) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[88vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl  flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in" style="max-height: 88vh; height: 85vh;">
         
         <!-- Header & Tabs (Fixed Top) -->
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex flex-col gap-3 flex-shrink-0 bg-white dark:bg-stone-900">
@@ -98,7 +98,7 @@ export function renderSurahPickerModal(currentSurahId) {
 export function renderSearchModal() {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-xl max-h-[85vh] h-[80vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-xl  flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in" style="max-height: 88vh; height: 85vh;">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <div class="flex items-center gap-2 flex-1 mr-2">
@@ -196,7 +196,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
 export function renderDoasModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in" id="modal-doas-container">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[85vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl  flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in" style="max-height: 88vh; height: 85vh;">
         
         <!-- Header (Fixed Top) -->
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900 z-10">
@@ -239,7 +239,7 @@ export function renderDoasModal(fromSettings = false) {
 export function renderTajwidModal(fromSettings = false) {
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in" id="modal-tajwid-container">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl max-h-[85vh] h-[85vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-2xl  flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in" style="max-height: 88vh; height: 85vh;">
         
         <!-- Header (Fixed Top) -->
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900 z-10">
@@ -287,7 +287,7 @@ export function renderSettingsModal(state) {
 
   return `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-md max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in">
+      <div class="bg-white dark:bg-stone-900 rounded-3xl w-full max-w-md  flex flex-col shadow-2xl border border-stone-200 dark:border-stone-800 overflow-hidden animate-scale-in" style="max-height: 88vh; height: 85vh;">
         
         <div class="p-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between flex-shrink-0 bg-white dark:bg-stone-900">
           <h2 class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
