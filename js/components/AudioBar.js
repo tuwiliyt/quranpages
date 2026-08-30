@@ -3,11 +3,23 @@
  */
 
 import { RECITERS } from '../services/audio.js';
+import { CHAPTER_MAP } from '../data/chapters.js';
 
 export function renderAudioBar(state) {
-  const { isAudioPlaying, currentAudioVerse, selectedReciterId, repeatMode, playbackRate } = state;
+  const { isAudioPlaying, selectedReciterId, repeatMode, playbackRate } = state;
+  const currentAudioVerse = state.currentAudioVerse || '';
   const currentReciter = RECITERS.find(r => r.id === selectedReciterId) || RECITERS[0];
-  const verseText = currentAudioVerse ? `Ayat ${currentAudioVerse}` : 'Pilih ayat untuk memutar';
+
+  let verseText = 'Pilih ayat untuk memutar';
+  if (currentAudioVerse.startsWith('bismillah-')) {
+    const chId = currentAudioVerse.split('-')[1];
+    const chapter = CHAPTER_MAP[chId];
+    verseText = chapter ? `Surah ${chapter.name_simple} : Bismillah` : 'Bismillah';
+  } else if (currentAudioVerse) {
+    const [surah, ayah] = currentAudioVerse.split(':');
+    const chapter = CHAPTER_MAP[surah];
+    verseText = chapter ? `Surah ${chapter.name_simple} : ${ayah}` : `Ayat ${currentAudioVerse}`;
+  }
 
   return `
     <div class="fixed bottom-2 left-2 right-2 md:bottom-4 md:right-4 md:left-auto md:w-[420px] z-50 transition-all duration-300">

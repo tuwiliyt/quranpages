@@ -122,7 +122,16 @@ class AudioService {
 
   setPageQueue(verses, onPageEnd) {
     this.queueVersesData = verses || [];
-    this.queue = (verses || []).map(v => v.verse_key);
+    this.queue = [];
+    
+    (verses || []).forEach(v => {
+      // Inject Bismillah before verse 1 of any Surah (except Al-Fatihah & At-Tawbah)
+      if (v.verse_number === 1 && v.chapter_id !== 1 && v.chapter_id !== 9) {
+        this.queue.push(`bismillah-${v.chapter_id}`);
+      }
+      this.queue.push(v.verse_key);
+    });
+    
     this.onPageEndCallback = onPageEnd;
   }
 
@@ -151,12 +160,35 @@ class AudioService {
   }
 
   /**
-   * Play single verse by verseKey (e.g. "1:1")
+   * Play single verse by verseKey (e.g. "1:1") or special "bismillah-{chId}" cue
    */
   async playVerse(verseKey, explicitSegments = null) {
     if (!verseKey) return;
     this.currentVerseKey = verseKey;
     this.currentWordPosition = null;
+
+    // Handle Bismillah Injection
+    if (verseKey.startsWith('bismillah-')) {
+      const chId = verseKey.split('-')[1];
+      this.currentSegments = [];
+      const audioUrl = this.selectedReciter.id === 7 
+        ? `https://verses.quran.com/Alafasy/mp3/001001.mp3`
+        : `https://everyayah.com/data/${this.selectedReciter.folder}/001001.mp3`;
+      
+      try {
+        this.audio.src = audioUrl;
+        this.audio.playbackRate = this.playbackRate;
+        await this.audio.play();
+        this.isPlaying = true;
+        this.stopSyncLoop(); // No word sync for Bismillah
+        this.emit('verseChange', verseKey);
+        this.emit('playState', true);
+      } catch (err) {
+        console.warn('Bismillah playback failed:', err);
+        this.handleVerseEnded(); // Skip immediately on error
+      }
+      return;
+    }
 
     // Determine whether word-by-word sync is available.
     // Segment timing data in the local JSON is generated exclusively for the Alafasy reciter.

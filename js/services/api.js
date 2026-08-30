@@ -58,17 +58,31 @@ export async function fetchPageVerses(pageNumber) {
 
   const localUrl = `./assets/pages/p${pageNumber}.json`;
 
+  const sanitizeData = (data) => {
+    if (data && data.verses) {
+      data.verses = data.verses.map(verse => {
+        if (!verse.words) return verse;
+        // Filter out words that bleed from other pages
+        const validWords = verse.words.filter(w => !w.page_number || w.page_number === pageNumber);
+        return { ...verse, words: validWords };
+      }).filter(verse => verse.words.length > 0); // Drop the verse if all its words were from another page
+    }
+    return data;
+  };
+
   try {
     const res = await fetch(localUrl);
     if (!res.ok) throw new Error(`Local file not found: ${res.status}`);
-    const data = await res.json();
+    const rawData = await res.json();
+    const data = sanitizeData(rawData);
     pageCache.set(pageNumber, data);
     return data;
   } catch (err) {
     console.warn(`Local page fetch failed, falling back to network:`, err);
     const fallbackUrl = `https://api.quran.com/api/v4/verses/by_page/${pageNumber}?words=true&word_fields=line_number,page_number,location,code_v1,code_v2,text_uthmani,text_indopak&translations=33&fields=chapter_id,verse_number,verse_key,page_number,juz_number,hizb_number,rub_el_hizb_number,sajdah_number&per_page=50`;
     const res = await fetch(fallbackUrl);
-    const data = await res.json();
+    const rawData = await res.json();
+    const data = sanitizeData(rawData);
     pageCache.set(pageNumber, data);
     return data;
   }
