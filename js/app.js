@@ -75,6 +75,16 @@ class QuranApp {
     window.playWordAudio = (url) => audioService.playWord(url);
 
     await this.loadCurrentView();
+
+    // Remove Splash Screen smoothly after initial load
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        splash.style.pointerEvents = 'none'; // allow clicks through immediately
+        setTimeout(() => splash.remove(), 1000); // wait for 1s transition
+      }, 1500); // Show splash for at least 1.5s
+    }
   }
 
   applyTheme(theme) {
