@@ -463,11 +463,12 @@ class QuranApp {
       this.renderAudioBar();
     });
 
-    document.getElementById('btn-audio-view-translation')?.addEventListener('click', () => {
+    document.getElementById('btn-audio-view-translation')?.addEventListener('click', async () => {
       const activeVerseKey = this.state.currentAudioVerse;
       if (activeVerseKey) {
         if (this.state.viewMode !== 'ayah') {
-          this.switchMode('ayah');
+          this.state.viewMode = 'ayah';
+          await this.loadCurrentView();
         }
         setTimeout(() => {
           const verseEl = document.querySelector(`[data-verse-key="${activeVerseKey}"]`);
@@ -476,7 +477,7 @@ class QuranApp {
             verseEl.classList.add('bg-amber-50', 'dark:bg-amber-900/20');
             setTimeout(() => verseEl.classList.remove('bg-amber-50', 'dark:bg-amber-900/20'), 2000);
           }
-        }, 100);
+        }, 300);
       }
     });
 
@@ -597,10 +598,11 @@ class QuranApp {
       popoverRoot.innerHTML = '';
     });
 
-    document.getElementById('popover-view-translation')?.addEventListener('click', () => {
+    document.getElementById('popover-view-translation')?.addEventListener('click', async () => {
       popoverRoot.innerHTML = '';
       if (this.state.viewMode !== 'ayah') {
-        this.switchMode('ayah');
+        this.state.viewMode = 'ayah';
+        await this.loadCurrentView();
       }
       setTimeout(() => {
         const verseEl = document.querySelector(`[data-verse-key="${wordData.verseKey}"]`);
@@ -609,7 +611,7 @@ class QuranApp {
           verseEl.classList.add('bg-amber-50', 'dark:bg-amber-900/20');
           setTimeout(() => verseEl.classList.remove('bg-amber-50', 'dark:bg-amber-900/20'), 2000);
         }
-      }, 100);
+      }, 300);
     });
 
     const closeHandler = (e) => {

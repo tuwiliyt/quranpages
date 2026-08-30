@@ -26,6 +26,10 @@
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.05); }
+    }
     @keyframes slideLeft {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
@@ -38,27 +42,27 @@
 <body class="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors antialiased select-none selection:bg-amber-200">
 
   <!-- SPLASH SCREEN -->
-  <div id="splash-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-stone-50 dark:bg-stone-950 transition-opacity duration-1000 ease-in-out">
+  <div id="splash-screen" style="position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #0c0a09; transition: opacity 1s ease-in-out;">
     <!-- Glowing background effect -->
-    <div class="absolute inset-0 flex items-center justify-center opacity-40 dark:opacity-20 pointer-events-none">
-      <div class="w-72 h-72 bg-emerald-500 rounded-full blur-[120px] animate-pulse"></div>
+    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.2; pointer-events: none;">
+      <div style="width: 18rem; height: 18rem; background-color: #10b981; border-radius: 9999px; filter: blur(100px); animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
     </div>
     
     <!-- Calligraphy Centerpiece -->
-    <div class="z-10 flex flex-col items-center" style="animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
-      <h1 class="font-arabic text-6xl md:text-8xl font-bold text-emerald-800 dark:text-amber-400 drop-shadow-md mb-2" style="line-height: 1.5;">
+    <div style="z-index: 10; display: flex; flex-direction: column; align-items: center; animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
+      <h1 class="font-arabic" style="font-size: clamp(4rem, 10vw, 6rem); font-weight: bold; color: #fbbf24; text-shadow: 0 4px 6px rgba(0,0,0,0.5); margin-bottom: 0.5rem; line-height: 1.5;">
         القرآن الكريم
       </h1>
-      <h2 class="text-stone-500 dark:text-stone-400 font-semibold tracking-[0.3em] uppercase text-xs md:text-sm mt-3 flex items-center gap-2">
-        <span class="w-8 h-[1px] bg-emerald-300 dark:bg-stone-700"></span>
+      <h2 style="color: #a8a29e; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; font-size: clamp(0.75rem, 3vw, 0.875rem); margin-top: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+        <span style="width: 2rem; height: 1px; background-color: #44403c;"></span>
         Mushaf Digital
-        <span class="w-8 h-[1px] bg-emerald-300 dark:bg-stone-700"></span>
+        <span style="width: 2rem; height: 1px; background-color: #44403c;"></span>
       </h2>
     </div>
 
     <!-- Footer Credits -->
-    <div class="absolute bottom-8 z-10 text-center text-[11px] md:text-xs font-medium text-stone-400 dark:text-stone-500" style="animation: fadeIn 1s ease-out 0.5s both;">
-      <p>by <span class="text-emerald-700 dark:text-amber-500 font-bold tracking-wide">@richieoct</span> dan <span class="text-emerald-700 dark:text-amber-500 font-bold tracking-wide">Panita Project</span></p>
+    <div style="position: absolute; bottom: 2rem; z-index: 10; text-align: center; font-size: 0.75rem; font-weight: 500; color: #78716c; animation: fadeIn 1s ease-out 0.5s both;">
+      <p>by <span style="color: #f59e0b; font-weight: bold; letter-spacing: 0.05em;">@richieoct</span> dan <span style="color: #f59e0b; font-weight: bold; letter-spacing: 0.05em;">Panita Project</span></p>
     </div>
   </div>
 
