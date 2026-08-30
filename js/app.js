@@ -69,6 +69,7 @@ class QuranApp {
     this.setupAudioListeners();
     this.setupGlobalShortcuts();
     this.setupTouchGestures();
+    this.setupBackButtonHandler();
     this.setupGlobalDelegation();
     
     window.playWordAudio = (url) => audioService.playWord(url);
@@ -157,6 +158,41 @@ class QuranApp {
         }
       }
     }, { passive: true });
+  }
+
+  setupBackButtonHandler() {
+    this.lastBackPressTime = 0;
+    
+    // Add a shield state so the back button has something to pop
+    window.history.replaceState({ root: true }, '', window.location.pathname);
+    window.history.pushState({ shield: true }, '', window.location.pathname);
+
+    window.addEventListener('popstate', (e) => {
+      // Check if a modal or popover is open
+      const popoverRoot = document.getElementById('popover-root');
+      const hasPopover = popoverRoot && popoverRoot.innerHTML.trim() !== '';
+      
+      if (this.state.activeModal || hasPopover) {
+        if (this.state.activeModal) this.closeModal();
+        if (hasPopover) popoverRoot.innerHTML = '';
+        
+        // Restore shield to prevent exit on next press
+        window.history.pushState({ shield: true }, '', window.location.pathname);
+        return;
+      }
+      
+      // If no modal/popover, handle double-back to exit
+      const now = Date.now();
+      if (now - this.lastBackPressTime > 2000) {
+        this.lastBackPressTime = now;
+        this.showToast('Tekan sekali lagi untuk keluar dari aplikasi');
+        // Restore shield to wait for confirmation
+        window.history.pushState({ shield: true }, '', window.location.pathname);
+      } else {
+        // Confirmed double press. Exit gracefully.
+        window.history.back();
+      }
+    });
   }
 
   setupGlobalDelegation() {
