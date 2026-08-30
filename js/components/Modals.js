@@ -44,7 +44,7 @@ export function renderSurahPickerModal(currentSurahId) {
         </div>
 
         <!-- Scrollable Content Lists -->
-        <div class="overflow-y-auto modal-scrollable p-3 sm:p-4 flex-1 min-h-0" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div class="overflow-y-auto modal-scrollable p-3 sm:p-4 flex-1 min-h-0" style="overflow-y: auto;  min-height: 0;">
           <!-- 114 Surahs Grid -->
           <div id="tab-content-surah" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             ${CHAPTERS.map(ch => `
@@ -111,7 +111,7 @@ export function renderSearchModal() {
           </button>
         </div>
 
-        <div id="search-results-container" class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-2.5" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div id="search-results-container" class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-2.5" style="overflow-y: auto;  min-height: 0;">
           <div class="text-center py-10 text-stone-400 text-xs sm:text-sm">
             Ketik minimal 2 huruf untuk memulai pencarian cerdas Al-Qur'an.
           </div>
@@ -137,7 +137,7 @@ export function renderBookmarksDrawer(bookmarks, lastRead) {
           </button>
         </div>
 
-        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4" style="overflow-y: auto;  min-height: 0;">
           
           <!-- Last Read Card -->
           <div>
@@ -217,7 +217,7 @@ export function renderDoasModal(fromSettings = false) {
         </div>
 
         <!-- Scrollable Content Body (Full Touch & Mouse Wheel Scroll) -->
-        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-4" style="overflow-y: scroll !important; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-4" style="overflow-y: scroll !important;  min-height: 0;">
           ${DOAS.map(doa => `
             <div class="p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-800 flex flex-col gap-2.5 shadow-sm flex-shrink-0">
               <div class="flex items-center justify-between">
@@ -260,7 +260,7 @@ export function renderTajwidModal(fromSettings = false) {
         </div>
 
         <!-- Scrollable Content Body (Full Touch & Mouse Wheel Scroll) -->
-        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-3" style="overflow-y: scroll !important; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div class="modal-scrollable p-4 sm:p-6 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-3" style="overflow-y: scroll !important;  min-height: 0;">
           ${TAJWID_RULES.map(rule => `
             <div class="p-3.5 sm:p-4 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col gap-2 bg-stone-50/50 dark:bg-stone-800/40 shadow-sm flex-shrink-0">
               <div class="flex items-center justify-between">
@@ -299,7 +299,7 @@ export function renderSettingsModal(state) {
           </button>
         </div>
 
-        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4 text-xs sm:text-sm" style="overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0;">
+        <div class="overflow-y-auto modal-scrollable p-4 flex-1 min-h-0 flex flex-col gap-4 text-xs sm:text-sm" style="overflow-y: auto;  min-height: 0;">
           
           <!-- Theme Selection -->
           <div>

@@ -437,9 +437,6 @@ html, body {
 
 .modal-scrollable {
   overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: contain !important;
-  touch-action: pan-y !important;
   scrollbar-width: thin;
   scrollbar-color: var(--color-gold) transparent;
 }
