@@ -153,6 +153,12 @@ class QuranApp {
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
+      // Disable swipe-to-turn-page if a modal or popover is open
+      const popoverRoot = document.getElementById('popover-root');
+      if (this.state.activeModal || (popoverRoot && popoverRoot.innerHTML.trim() !== '')) {
+        return;
+      }
+
       touchEndX = e.changedTouches[0].screenX;
       const diff = touchEndX - touchStartX;
       if (Math.abs(diff) > 70) {
@@ -666,6 +672,9 @@ class QuranApp {
     const modalRoot = document.getElementById('modal-root');
     if (!modalRoot) return;
 
+    // Lock body scroll to allow modal scrolling on mobile
+    document.body.style.overflow = 'hidden';
+
     if (type === 'surahPicker') {
       modalRoot.innerHTML = renderSurahPickerModal(this.state.currentSurahId);
       this.attachSurahPickerEvents();
@@ -677,6 +686,7 @@ class QuranApp {
       this.attachBookmarksEvents();
     } else if (type === 'doas') {
       modalRoot.innerHTML = renderDoasModal(fromSettings);
+      this.attachDoasEvents(fromSettings);
     } else if (type === 'tajwid') {
       modalRoot.innerHTML = renderTajwidModal(fromSettings);
     } else if (type === 'settings') {
@@ -701,6 +711,9 @@ class QuranApp {
     this.state.activeModal = null;
     const modalRoot = document.getElementById('modal-root');
     if (modalRoot) modalRoot.innerHTML = '';
+    
+    // Unlock body scroll
+    document.body.style.overflow = '';
   }
 
   attachSurahPickerEvents() {
