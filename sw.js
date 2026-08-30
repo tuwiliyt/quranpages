@@ -3,7 +3,7 @@
  * Full Offline PWA Cache & Dynamic Audio Offline Caching
  */
 
-const CACHE_NAME = 'quran-mushaf-v3';
+const CACHE_NAME = 'quran-mushaf-v4';
 const AUDIO_CACHE = 'quran-audio-v1';
 
 const STATIC_ASSETS = [

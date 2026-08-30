@@ -6,11 +6,11 @@
 
 export const RECITERS = [
   { id: 7, name: 'Mishary Rashid Alafasy', subtext: 'Murattal (Sinkronisasi Kata Per-Kata)', folder: 'Alafasy/mp3' },
-  { id: 3, name: 'Abdur-Rahman As-Sudais', subtext: 'Imam Masjidil Haram', folder: 'Abdurrahmaan_As-Sudais_192kbps' },
-  { id: 11, name: 'Maher Al-Muaiqly', subtext: 'Imam Masjidil Haram', folder: 'Maher_AlMuaiqly_64kbps' },
-  { id: 6, name: 'Mahmoud Khalil Al-Husary', subtext: 'Tartil Standar Tajwid', folder: 'Husary_128kbps' },
-  { id: 2, name: 'Abdul Basit Murattal', subtext: 'Qari Mesir Legendaris', folder: 'Abdul_Basit_Murattal_192kbps' },
-  { id: 4, name: 'Abu Bakr Al-Shatri', subtext: 'Murattal Khas', folder: 'Abu_Bakr_Ash-Shaatree_128kbps' }
+  { id: 3, name: 'Abdur-Rahman As-Sudais', subtext: 'Imam Masjidil Haram (Sorotan Per-Ayat)', folder: 'Abdurrahmaan_As-Sudais_192kbps' },
+  { id: 11, name: 'Maher Al-Muaiqly', subtext: 'Imam Masjidil Haram (Sorotan Per-Ayat)', folder: 'Maher_AlMuaiqly_64kbps' },
+  { id: 6, name: 'Mahmoud Khalil Al-Husary', subtext: 'Tartil Standar Tajwid (Sorotan Per-Ayat)', folder: 'Husary_128kbps' },
+  { id: 2, name: 'Abdul Basit Murattal', subtext: 'Qari Mesir Legendaris (Sorotan Per-Ayat)', folder: 'Abdul_Basit_Murattal_192kbps' },
+  { id: 4, name: 'Abu Bakr Al-Shatri', subtext: 'Murattal Khas (Sorotan Per-Ayat)', folder: 'Abu_Bakr_Ash-Shaatree_128kbps' }
 ];
 
 class AudioService {
@@ -127,6 +127,30 @@ class AudioService {
   }
 
   /**
+   * Sanitize and filter segment data to remove invalid entries.
+   * Segment format: [word_index_0based, word_position_1based, start_ms, end_ms]
+   * Removes segments with: missing fields, start >= end (will never match), or negative timing.
+   * Sorts remaining segments chronologically by start time.
+   * @param {Array} segments - Raw segment array from API data
+   * @returns {Array} Cleaned and sorted segments
+   */
+  _sanitizeSegments(segments) {
+    if (!segments || !Array.isArray(segments)) return [];
+
+    return segments.filter(seg => {
+      // Must have at least 4 elements
+      if (!Array.isArray(seg) || seg.length < 4) return false;
+      const start = seg[2];
+      const end = seg[3];
+      // Filter out segments with invalid timing (start >= end would never match in processWordSync)
+      if (typeof start !== 'number' || typeof end !== 'number') return false;
+      if (start < 0 || end < 0) return false;
+      if (start >= end) return false;
+      return true;
+    }).sort((a, b) => a[2] - b[2]); // Ensure chronological order
+  }
+
+  /**
    * Play single verse by verseKey (e.g. "1:1")
    */
   async playVerse(verseKey, explicitSegments = null) {
@@ -134,17 +158,24 @@ class AudioService {
     this.currentVerseKey = verseKey;
     this.currentWordPosition = null;
 
-    // Find segments from queue data
-    if (explicitSegments) {
-      this.currentSegments = explicitSegments;
-    } else if (this.queueVersesData) {
+    // Determine whether word-by-word sync is available.
+    // Segment timing data in the local JSON is generated exclusively for the Alafasy reciter.
+    // Using Alafasy segments with a different reciter's audio produces wrong word highlighting
+    // because each reciter reads at a different pace.
+    const isAlafasy = this.selectedReciter.id === 7;
+
+    // Find and sanitize segments from queue data
+    if (explicitSegments && isAlafasy) {
+      this.currentSegments = this._sanitizeSegments(explicitSegments);
+    } else if (this.queueVersesData && isAlafasy) {
       const verseObj = this.queueVersesData.find(v => v.verse_key === verseKey);
       if (verseObj && verseObj.audio?.segments) {
-        this.currentSegments = verseObj.audio.segments;
+        this.currentSegments = this._sanitizeSegments(verseObj.audio.segments);
       } else {
         this.currentSegments = [];
       }
     } else {
+      // Non-Alafasy reciters: no word-by-word sync (verse-level highlight still works)
       this.currentSegments = [];
     }
 
@@ -193,6 +224,9 @@ class AudioService {
 
   /**
    * 60 FPS Real-Time Word Sync Calculation
+   * Matches the current audio timestamp against segment timing data to determine
+   * which word should be highlighted. Handles gaps between segments gracefully
+   * by keeping the previous word highlighted until the next segment starts.
    */
   processWordSync() {
     const currentMs = this.audio.currentTime * 1000;
@@ -205,11 +239,47 @@ class AudioService {
     });
 
     if (this.currentSegments && this.currentSegments.length > 0) {
-      const activeSegment = this.currentSegments.find(seg => {
+      // Find the segment whose time range contains the current playback position
+      let activeSegment = null;
+      let isInGap = false;
+
+      for (let i = 0; i < this.currentSegments.length; i++) {
+        const seg = this.currentSegments[i];
         const start = seg[2];
         const end = seg[3];
-        return currentMs >= start && currentMs <= end;
-      });
+
+        if (currentMs >= start && currentMs <= end) {
+          // Exact match — current time is within this segment's range
+          activeSegment = seg;
+          break;
+        }
+
+        if (currentMs < start) {
+          // We've passed all segments that could contain currentMs.
+          // currentMs is in a gap before this segment.
+          // Keep the previous segment's word highlighted during the brief gap,
+          // rather than flickering the highlight off and on.
+          if (i > 0) {
+            const prevEnd = this.currentSegments[i - 1][3];
+            const gapDuration = start - prevEnd;
+            // Only keep prev highlight for short gaps (< 200ms).
+            // Longer gaps likely indicate a real pause in recitation.
+            if (currentMs > prevEnd && gapDuration < 200) {
+              activeSegment = this.currentSegments[i - 1];
+            }
+          }
+          isInGap = true;
+          break;
+        }
+      }
+
+      // If currentMs is past the last segment, keep last word highlighted briefly
+      if (!activeSegment && !isInGap && this.currentSegments.length > 0) {
+        const lastSeg = this.currentSegments[this.currentSegments.length - 1];
+        if (currentMs > lastSeg[3] && currentMs - lastSeg[3] < 200) {
+          activeSegment = lastSeg;
+        }
+      }
 
       if (activeSegment) {
         const position = activeSegment[1]; // 1-indexed word position
