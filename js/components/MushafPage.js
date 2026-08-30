@@ -7,12 +7,17 @@ import { CHAPTER_MAP } from '../data/chapters.js';
 import { PAGE_MAP } from '../data/pages_index.js';
 import { loadPageFont } from '../services/api.js';
 
-export function groupLinesByVerses(verses) {
+export function groupLinesByVerses(verses, targetPageNumber = null) {
   const linesMap = {};
   
   verses.forEach((verse) => {
     const words = verse.words || [];
     words.forEach((word) => {
+      // Prevent cross-page bleeding if API returns overlapping verses
+      if (targetPageNumber && word.page_number && word.page_number !== targetPageNumber) {
+        return;
+      }
+      
       const lineNum = word.line_number || 1;
       const key = `Line-${lineNum}`;
       if (!linesMap[key]) {
@@ -60,8 +65,8 @@ export function renderMushafPage(pageNumber, versesData, options = {}) {
   const primarySurahId = pageMeta.surah_ids[0] || 1;
   const primarySurah = CHAPTER_MAP[primarySurahId] || { name_simple: 'Al-Fatihah', name_arabic: 'الفاتحة' };
   
-  // Group words into 15 lines
-  const linesMap = groupLinesByVerses(versesData);
+  // Group words into 15 lines, filtering out bleed from other pages
+  const linesMap = groupLinesByVerses(versesData, pageNumber);
   const lineKeys = Object.keys(linesMap).sort((a, b) => {
     const numA = parseInt(a.replace('Line-', ''));
     const numB = parseInt(b.replace('Line-', ''));
